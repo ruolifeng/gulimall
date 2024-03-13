@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.rlfit.gulimall.product.mapper.PmsSpuImagesMapper">
+
+    <resultMap id="BaseResultMap" type="cn.rlfit.gulimall.product.domain.PmsSpuImages">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="spuId" column="spu_id" jdbcType="BIGINT"/>
+            <result property="imgName" column="img_name" jdbcType="VARCHAR"/>
+            <result property="imgUrl" column="img_url" jdbcType="VARCHAR"/>
+            <result property="imgSort" column="img_sort" jdbcType="INTEGER"/>
+            <result property="defaultImg" column="default_img" jdbcType="TINYINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,spu_id,img_name,
+        img_url,img_sort,default_img
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from pms_spu_images
+        where  id = #{id,jdbcType=BIGINT} 
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from pms_spu_images
+        where  id = #{id,jdbcType=BIGINT} 
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.rlfit.gulimall.product.domain.PmsSpuImages" useGeneratedKeys="true">
+        insert into pms_spu_images
+        ( id,spu_id,img_name
+        ,img_url,img_sort,default_img
+        )
+        values (#{id,jdbcType=BIGINT},#{spuId,jdbcType=BIGINT},#{imgName,jdbcType=VARCHAR}
+        ,#{imgUrl,jdbcType=VARCHAR},#{imgSort,jdbcType=INTEGER},#{defaultImg,jdbcType=TINYINT}
+        )
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="cn.rlfit.gulimall.product.domain.PmsSpuImages" useGeneratedKeys="true">
+        insert into pms_spu_images
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="id != null">id,</if>
+                <if test="spuId != null">spu_id,</if>
+                <if test="imgName != null">img_name,</if>
+                <if test="imgUrl != null">img_url,</if>
+                <if test="imgSort != null">img_sort,</if>
+                <if test="defaultImg != null">default_img,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="id != null">#{id,jdbcType=BIGINT},</if>
+                <if test="spuId != null">#{spuId,jdbcType=BIGINT},</if>
+                <if test="imgName != null">#{imgName,jdbcType=VARCHAR},</if>
+                <if test="imgUrl != null">#{imgUrl,jdbcType=VARCHAR},</if>
+                <if test="imgSort != null">#{imgSort,jdbcType=INTEGER},</if>
+                <if test="defaultImg != null">#{defaultImg,jdbcType=TINYINT},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="cn.rlfit.gulimall.product.domain.PmsSpuImages">
+        update pms_spu_images
+        <set>
+                <if test="spuId != null">
+                    spu_id = #{spuId,jdbcType=BIGINT},
+                </if>
+                <if test="imgName != null">
+                    img_name = #{imgName,jdbcType=VARCHAR},
+                </if>
+                <if test="imgUrl != null">
+                    img_url = #{imgUrl,jdbcType=VARCHAR},
+                </if>
+                <if test="imgSort != null">
+                    img_sort = #{imgSort,jdbcType=INTEGER},
+                </if>
+                <if test="defaultImg != null">
+                    default_img = #{defaultImg,jdbcType=TINYINT},
+                </if>
+        </set>
+        where   id = #{id,jdbcType=BIGINT} 
+    </update>
+    <update id="updateByPrimaryKey" parameterType="cn.rlfit.gulimall.product.domain.PmsSpuImages">
+        update pms_spu_images
+        set 
+            spu_id =  #{spuId,jdbcType=BIGINT},
+            img_name =  #{imgName,jdbcType=VARCHAR},
+            img_url =  #{imgUrl,jdbcType=VARCHAR},
+            img_sort =  #{imgSort,jdbcType=INTEGER},
+            default_img =  #{defaultImg,jdbcType=TINYINT}
+        where   id = #{id,jdbcType=BIGINT} 
+    </update>
+</mapper>

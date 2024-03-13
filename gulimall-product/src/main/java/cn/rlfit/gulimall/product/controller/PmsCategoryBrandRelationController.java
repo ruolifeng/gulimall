@@ -2,11 +2,14 @@ package cn.rlfit.gulimall.product.controller;
 
 import cn.rlfit.gulimall.product.domain.PmsCategoryBrandRelation;
 import cn.rlfit.gulimall.product.service.PmsCategoryBrandRelationService;
-import cn.rlfit.gulimall.utils.resp.Result;
+import cn.rlfit.gulimall.utils.resp.R;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Arrays;
+import java.util.HashMap;
 
 /**
  * @author: sunjianrong
@@ -19,8 +22,8 @@ public class PmsCategoryBrandRelationController {
     PmsCategoryBrandRelationService pmsCategoryBrandRelationservice;
 
     @GetMapping("/select/{id}")
-    public String selectByPrimaryKey(@PathVariable("id") int id){
+    public R selectByPrimaryKey(@PathVariable("id") int id){
         PmsCategoryBrandRelation psm = pmsCategoryBrandRelationservice.selectByPrimaryKey(id);
-        return Result.ok("200", psm);
+         return R.ok("你好");
     }
 }
