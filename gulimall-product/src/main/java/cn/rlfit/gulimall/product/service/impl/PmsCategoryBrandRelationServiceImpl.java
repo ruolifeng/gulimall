@@ -3,9 +3,9 @@ package cn.rlfit.gulimall.product.service.impl;
 import cn.rlfit.gulimall.product.domain.PmsCategoryBrandRelation;
 import cn.rlfit.gulimall.product.mapper.PmsCategoryBrandRelationMapper;
 import cn.rlfit.gulimall.product.service.PmsCategoryBrandRelationService;
-import jakarta.annotation.Resource;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
 
 /**
  * @author: sunjianrong

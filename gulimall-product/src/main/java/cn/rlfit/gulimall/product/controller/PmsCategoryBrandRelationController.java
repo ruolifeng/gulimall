@@ -3,10 +3,11 @@ package cn.rlfit.gulimall.product.controller;
 import cn.rlfit.gulimall.product.domain.PmsCategoryBrandRelation;
 import cn.rlfit.gulimall.product.service.PmsCategoryBrandRelationService;
 import cn.rlfit.gulimall.utils.resp.R;
-import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.annotation.Resource;
 
 
 /**
