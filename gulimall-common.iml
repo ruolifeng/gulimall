@@ -6,11 +6,13 @@
         <option name="ideModuleStorage">
           <map>
             <entry key="com.zeroturnaround.jrebel.FormatVersion" value="7.0.0" />
+            <entry key="com.zeroturnaround.jrebel.remoting.DeleteUnindexedFiles" value="false" />
             <entry key="jrebelEnabled" value="true" />
+            <entry key="lastExternalPluginCheckTime" value="1710384069494" />
             <entry key="rebelXmlGenerationInvariantToken" value="PGFwcGxpY2F0aW9uIGdlbmVyYXRlZC1ieT0iaW50ZWxsaWoiPjxpZD5ndWxpbWFsbC1jb21tb248L2lkPjxjbGFzc3BhdGg+PGRpciBuYW1lPSJFOi9pZGVhL2xlYXJuL2d1bGltYWxsL2d1bGltYWxsLWNvbW1vbi90YXJnZXQvY2xhc3NlcyI+PC9kaXI+PC9jbGFzc3BhdGg+PC9hcHBsaWNhdGlvbj4=" />
           </map>
         </option>
-        <option name="version" value="15" />
+        <option name="version" value="18" />
       </configuration>
     </facet>
   </component>
