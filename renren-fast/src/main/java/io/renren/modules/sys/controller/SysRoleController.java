@@ -37,6 +37,11 @@ public class SysRoleController extends AbstractController {
 	@Autowired
 	private SysRoleMenuService sysRoleMenuService;
 
+	@GetMapping("/test")
+	public String test(){
+		return "你好";
+	}
+
 	/**
 	 * 角色列表
 	 */
