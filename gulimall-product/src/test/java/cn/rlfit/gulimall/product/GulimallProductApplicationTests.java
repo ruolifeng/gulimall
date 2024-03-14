@@ -2,8 +2,6 @@ package cn.rlfit.gulimall.product;
 
 import cn.rlfit.gulimall.product.domain.PmsCategoryBrandRelation;
 import cn.rlfit.gulimall.product.mapper.PmsCategoryBrandRelationMapper;
-import jakarta.annotation.Resource;
-import org.apache.ibatis.annotations.Result;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
