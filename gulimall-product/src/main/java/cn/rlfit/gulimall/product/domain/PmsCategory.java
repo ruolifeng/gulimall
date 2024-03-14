@@ -1,6 +1,8 @@
 package cn.rlfit.gulimall.product.domain;
 
 import java.io.Serializable;
+import java.util.List;
+
 import lombok.Data;
 
 /**
@@ -53,6 +55,11 @@ public class PmsCategory implements Serializable {
      * 商品数量
      */
     private Integer productCount;
+
+    /**
+     * 子分类
+     */
+    private List<PmsCategory> children;
 
     private static final long serialVersionUID = 1L;
 

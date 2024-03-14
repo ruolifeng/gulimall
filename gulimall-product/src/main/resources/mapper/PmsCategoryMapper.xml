@@ -112,4 +112,7 @@
             product_count =  #{productCount,jdbcType=INTEGER}
         where   cat_id = #{catId,jdbcType=BIGINT} 
     </update>
+    <select id="getAllCategory" resultMap="BaseResultMap">
+        select * from pms_category
+    </select>
 </mapper>

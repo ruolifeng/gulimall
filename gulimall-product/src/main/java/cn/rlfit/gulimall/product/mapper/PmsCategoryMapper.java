@@ -3,6 +3,8 @@ package cn.rlfit.gulimall.product.mapper;
 import cn.rlfit.gulimall.product.domain.PmsCategory;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 /**
 * @author 18777
 * @description 针对表【pms_category(商品三级分类)】的数据库操作Mapper
@@ -23,5 +25,7 @@ public interface PmsCategoryMapper {
     int updateByPrimaryKeySelective(PmsCategory record);
 
     int updateByPrimaryKey(PmsCategory record);
+
+    List<PmsCategory> getAllCategory();
 
 }
