@@ -5,6 +5,7 @@ import cn.rlfit.gulimall.product.mapper.PmsCategoryMapper;
 import cn.rlfit.gulimall.product.service.PmsCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,6 +34,7 @@ public class PmsCategoryServiceImpl implements PmsCategoryService {
         return level1Menu;
     }
 
+    @Transactional
     @Override
     public void deleteMenusByCatIds(List<Long> list) {
         list.stream().distinct().forEach(catId->pmsCategoryMapper.deleteMenusByCatIds(catId));
