@@ -51,4 +51,15 @@ public class PmsCategoryController {
     public void save(@RequestBody PmsCategory category){
         pmsCategoryService.save(category);
     }
+
+    @PostMapping("/update")
+    public void update(@RequestBody PmsCategory category){
+        pmsCategoryService.updateCategory(category);
+    }
+
+    @GetMapping("/info/{catId}")
+    public R getOneInfoById(@PathVariable Long catId){
+        PmsCategory pmsCategory = pmsCategoryService.getOneInfoById(catId);
+        return R.ok().put("data", pmsCategory);
+    }
 }

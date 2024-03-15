@@ -45,6 +45,16 @@ public class PmsCategoryServiceImpl implements PmsCategoryService {
         pmsCategoryMapper.insertSelective(category);
     }
 
+    @Override
+    public void updateCategory(PmsCategory category) {
+        pmsCategoryMapper.updateByPrimaryKeySelective(category);
+    }
+
+    @Override
+    public  PmsCategory getOneInfoById(Long catId) {
+        return pmsCategoryMapper.selectByPrimaryKey(catId);
+    }
+
     /**
      *  查询子节点
      * @param parentMenu 父节点

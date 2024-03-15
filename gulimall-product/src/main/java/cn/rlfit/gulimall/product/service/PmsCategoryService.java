@@ -15,4 +15,8 @@ public interface PmsCategoryService {
     void deleteMenusByCatIds(List<Long> list);
 
     void save(PmsCategory category);
+
+    void updateCategory(PmsCategory category);
+
+    PmsCategory getOneInfoById(Long catId);
 }
