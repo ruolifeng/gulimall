@@ -42,4 +42,13 @@ public class PmsCategoryController {
         pmsCategoryService.deleteMenusByCatIds(Arrays.asList(catIds));
         return null;
     }
+
+    /**
+     * 添加分类数据
+     * @param category 分类数据
+     */
+    @PostMapping("/save")
+    public void save(@RequestBody PmsCategory category){
+        pmsCategoryService.save(category);
+    }
 }

@@ -40,6 +40,11 @@ public class PmsCategoryServiceImpl implements PmsCategoryService {
         list.stream().distinct().forEach(catId->pmsCategoryMapper.deleteMenusByCatIds(catId));
     }
 
+    @Override
+    public void save(PmsCategory category) {
+        pmsCategoryMapper.insertSelective(category);
+    }
+
     /**
      *  查询子节点
      * @param parentMenu 父节点

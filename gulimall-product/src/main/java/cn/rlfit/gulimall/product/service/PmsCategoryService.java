@@ -13,4 +13,6 @@ public interface PmsCategoryService {
     List<PmsCategory> getAllCategoryToTree();
 
     void deleteMenusByCatIds(List<Long> list);
+
+    void save(PmsCategory category);
 }
