@@ -114,5 +114,12 @@
     </update>
     <select id="getAllCategory" resultMap="BaseResultMap">
         select * from pms_category
+        where show_status = 1
     </select>
+<!--    删除指定数据集合-->
+    <update id="deleteMenusByCatIds" parameterType="_long">
+        UPDATE pms_category
+        SET show_status = 0
+        WHERE cat_id = #{catId,jdbcType=BIGINT}
+    </update>
 </mapper>

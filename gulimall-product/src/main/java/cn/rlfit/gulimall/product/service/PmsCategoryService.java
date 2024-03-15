@@ -11,4 +11,6 @@ import java.util.List;
  */
 public interface PmsCategoryService {
     List<PmsCategory> getAllCategoryToTree();
+
+    void deleteMenusByCatIds(List<Long> list);
 }

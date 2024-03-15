@@ -33,6 +33,11 @@ public class PmsCategoryServiceImpl implements PmsCategoryService {
         return level1Menu;
     }
 
+    @Override
+    public void deleteMenusByCatIds(List<Long> list) {
+        list.stream().distinct().forEach(catId->pmsCategoryMapper.deleteMenusByCatIds(catId));
+    }
+
     /**
      *  查询子节点
      * @param parentMenu 父节点

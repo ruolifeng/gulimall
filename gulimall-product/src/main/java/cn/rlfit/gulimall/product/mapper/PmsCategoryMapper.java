@@ -28,4 +28,5 @@ public interface PmsCategoryMapper {
 
     List<PmsCategory> getAllCategory();
 
+    void deleteMenusByCatIds(Long catId);
 }
