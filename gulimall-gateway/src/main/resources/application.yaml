@@ -2,10 +2,12 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: test_route
-          uri: https://www.rlfit.cn
+        - id: product_route
+          uri: lb://gulimall-product
           predicates:
-            - Query=url,rlf
+            - Path=/api/product/**
+          filters:
+            - RewritePath=/api/(?<segment>/?.*),/$\{segment}
         - id: admin_route
           uri: lb://renren-fast
           predicates:
