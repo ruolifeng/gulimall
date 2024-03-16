@@ -40,7 +40,7 @@ public class PmsCategoryController {
     public R delete(@RequestBody Long[] catIds){
         // 检查当前需要删除的菜单是否被别的地方使用
         pmsCategoryService.deleteMenusByCatIds(Arrays.asList(catIds));
-        return null;
+        return R.ok();
     }
 
     /**
