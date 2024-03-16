@@ -62,4 +62,15 @@ public class PmsCategoryController {
         PmsCategory pmsCategory = pmsCategoryService.getOneInfoById(catId);
         return R.ok().put("data", pmsCategory);
     }
+
+    /**
+     * 更新拖拽之后的排序
+     * @param categories 拖拽之后需要重新排序的数据组
+     * @return 排序成功返回的数据
+     */
+    @PostMapping("/update/sort")
+    public R updateSort(@RequestBody PmsCategory[] categories){
+        pmsCategoryService.updateBatchById(categories);
+        return R.ok();
+    }
 }

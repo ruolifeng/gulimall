@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,7 +38,7 @@ public class PmsCategoryServiceImpl implements PmsCategoryService {
     @Transactional
     @Override
     public void deleteMenusByCatIds(List<Long> list) {
-        list.stream().distinct().forEach(catId->pmsCategoryMapper.deleteMenusByCatIds(catId));
+        list.stream().distinct().forEach(catId -> pmsCategoryMapper.deleteMenusByCatIds(catId));
     }
 
     @Override
@@ -51,8 +52,14 @@ public class PmsCategoryServiceImpl implements PmsCategoryService {
     }
 
     @Override
-    public  PmsCategory getOneInfoById(Long catId) {
+    public PmsCategory getOneInfoById(Long catId) {
         return pmsCategoryMapper.selectByPrimaryKey(catId);
+    }
+
+    @Transactional
+    @Override
+    public void updateBatchById(PmsCategory[] categories) {
+        Arrays.stream(categories).distinct().forEach(x->pmsCategoryMapper.updateByPrimaryKeySelective(x));
     }
 
     /**

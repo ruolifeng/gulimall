@@ -19,4 +19,6 @@ public interface PmsCategoryService {
     void updateCategory(PmsCategory category);
 
     PmsCategory getOneInfoById(Long catId);
+
+    void updateBatchById(PmsCategory[] categories);
 }
