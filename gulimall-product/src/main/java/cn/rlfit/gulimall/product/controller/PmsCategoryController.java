@@ -3,7 +3,6 @@ package cn.rlfit.gulimall.product.controller;
 import cn.rlfit.gulimall.product.domain.PmsCategory;
 import cn.rlfit.gulimall.product.service.PmsCategoryService;
 import cn.rlfit.gulimall.utils.resp.R;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;

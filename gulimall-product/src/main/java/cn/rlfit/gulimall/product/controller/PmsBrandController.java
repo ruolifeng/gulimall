@@ -1,0 +1,84 @@
+package cn.rlfit.gulimall.product.controller;
+
+import cn.rlfit.gulimall.product.domain.PmsBrand;
+import cn.rlfit.gulimall.product.domain.PmsBrandPages;
+import cn.rlfit.gulimall.product.service.PmsBrandService;
+import cn.rlfit.gulimall.utils.resp.R;
+import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * @author: sunjianrong
+ * @email: sunruolifeng@gmail.com
+ * @date: 16/03/2024 1:29 PM
+ */
+@RestController()
+@RequestMapping("/product/brand")
+public class PmsBrandController {
+    @Resource
+    PmsBrandService pmsBrandService;
+
+    /**
+     * 获取品牌列表数据
+     * @param pms 查询参数
+     * @return 查询结果
+     */
+    @GetMapping("/list")
+    public R getAllBrandList(@RequestParam Map<String,Object> pms){
+        PmsBrandPages list = pmsBrandService.getBrandAllList(pms);
+        return R.ok().put("data", list);
+    }
+
+    /**
+     * 新增加一条数据
+     * @param pmsBrand 新增加的数据实体
+     * @return 增加成功返回值
+     */
+    @PostMapping("/save")
+    public R saveBrandData(@RequestBody PmsBrand pmsBrand){
+        pmsBrandService.saveBrand(pmsBrand);
+        return R.ok();
+    }
+
+    /**
+     * 更新品牌展示状态
+     * @param pmsBrand 修改数据
+     * @return 修改成功
+     */
+    @PostMapping("/update/status")
+    public R updateBrandStatus(@RequestBody PmsBrand pmsBrand){
+        pmsBrandService.updateBrandStatus(pmsBrand);
+        return R.ok();
+    }
+
+    /**
+     * 更新品牌
+     * @param pmsBrand 更新数据实体
+     * @return 根性成功
+     */
+    @RequestMapping("/save")
+    public R updateBrandData(@RequestBody PmsBrand pmsBrand){
+        pmsBrandService.updateBrandData(pmsBrand);
+        return R.ok();
+    }
+
+    /**
+     * 通过id删除一个数据
+     * @param ids id
+     * @return 删除成功
+     */
+    @PostMapping("/delete")
+    public R deleteBrand(@RequestBody Long[] ids){
+        pmsBrandService.deleteOneById(ids);
+        return R.ok();
+    }
+
+    @GetMapping("/info/{id}")
+    public R getOneInfo(@PathVariable Integer id){
+        PmsBrand oneInfo = pmsBrandService.getOneInfo(id);
+        return R.ok().put("data", oneInfo);
+    }
+}
