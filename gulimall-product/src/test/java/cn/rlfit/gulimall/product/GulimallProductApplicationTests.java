@@ -10,9 +10,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 class GulimallProductApplicationTests {
     @Autowired
     PmsCategoryBrandRelationMapper pmsCategoryBrandRelationMapper;
+
     @Test
     void contextLoads() {
         PmsCategoryBrandRelation pmsCategoryBrandRelation = pmsCategoryBrandRelationMapper.selectByPrimaryKey(1l);
         System.out.println(pmsCategoryBrandRelation);
+    }
+
+    @Test
+    void testUploadFile() {
+
     }
 }
