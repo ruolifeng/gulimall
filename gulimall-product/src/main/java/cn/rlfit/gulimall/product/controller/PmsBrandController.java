@@ -7,7 +7,6 @@ import cn.rlfit.gulimall.utils.resp.R;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -80,5 +79,10 @@ public class PmsBrandController {
     public R getOneInfo(@PathVariable Integer id){
         PmsBrand oneInfo = pmsBrandService.getOneInfo(id);
         return R.ok().put("data", oneInfo);
+    }
+    @PostMapping("/update")
+    public R updateInfo(@RequestBody PmsBrand pmsBrand){
+        pmsBrandService.updateInfo(pmsBrand);
+        return R.ok();
     }
 }

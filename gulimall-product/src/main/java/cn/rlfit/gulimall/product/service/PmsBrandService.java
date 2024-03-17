@@ -23,4 +23,6 @@ public interface PmsBrandService {
     void deleteOneById(Long[] ids);
 
     PmsBrand getOneInfo(Integer id);
+
+    void updateInfo(PmsBrand pmsBrand);
 }

@@ -57,4 +57,9 @@ public class PmsBrandServiceImpl implements PmsBrandService {
     public PmsBrand getOneInfo(Integer id) {
         return pmsBrandMapper.selectByPrimaryKey(id.longValue());
     }
+
+    @Override
+    public void updateInfo(PmsBrand pmsBrand) {
+        pmsBrandMapper.updateByPrimaryKeySelective(pmsBrand);
+    }
 }
