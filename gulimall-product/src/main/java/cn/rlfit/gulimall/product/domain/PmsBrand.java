@@ -1,7 +1,12 @@
 package cn.rlfit.gulimall.product.domain;
 
-import java.io.Serializable;
 import lombok.Data;
+import org.hibernate.validator.constraints.URL;
+
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import java.io.Serializable;
 
 /**
  * 品牌
@@ -17,11 +22,14 @@ public class PmsBrand implements Serializable {
     /**
      * 品牌名
      */
+    @NotBlank(message = "名称字段必须不是空值")
     private String name;
 
     /**
      * 品牌logo地址
      */
+    @NotBlank(message = "logo不能为空")
+    @URL(message = "logo必须是一个合法的url")
     private String logo;
 
     /**
@@ -37,11 +45,14 @@ public class PmsBrand implements Serializable {
     /**
      * 检索首字母
      */
+    @NotBlank(message = "检索首字母不能为空")
+    @Pattern(regexp = "/^[a-zA-Z]$/", message = "检索首字母必须是一个字母")
     private String firstLetter;
 
     /**
      * 排序
      */
+    @Min(value = 0, message = "排序必须大于等于0")
     private Integer sort;
 
     private static final long serialVersionUID = 1L;
@@ -59,12 +70,12 @@ public class PmsBrand implements Serializable {
         }
         PmsBrand other = (PmsBrand) that;
         return (this.getBrandId() == null ? other.getBrandId() == null : this.getBrandId().equals(other.getBrandId()))
-            && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
-            && (this.getLogo() == null ? other.getLogo() == null : this.getLogo().equals(other.getLogo()))
-            && (this.getDescript() == null ? other.getDescript() == null : this.getDescript().equals(other.getDescript()))
-            && (this.getShowStatus() == null ? other.getShowStatus() == null : this.getShowStatus().equals(other.getShowStatus()))
-            && (this.getFirstLetter() == null ? other.getFirstLetter() == null : this.getFirstLetter().equals(other.getFirstLetter()))
-            && (this.getSort() == null ? other.getSort() == null : this.getSort().equals(other.getSort()));
+                && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
+                && (this.getLogo() == null ? other.getLogo() == null : this.getLogo().equals(other.getLogo()))
+                && (this.getDescript() == null ? other.getDescript() == null : this.getDescript().equals(other.getDescript()))
+                && (this.getShowStatus() == null ? other.getShowStatus() == null : this.getShowStatus().equals(other.getShowStatus()))
+                && (this.getFirstLetter() == null ? other.getFirstLetter() == null : this.getFirstLetter().equals(other.getFirstLetter()))
+                && (this.getSort() == null ? other.getSort() == null : this.getSort().equals(other.getSort()));
     }
 
     @Override

@@ -4,9 +4,13 @@ import cn.rlfit.gulimall.product.domain.PmsBrand;
 import cn.rlfit.gulimall.product.domain.PmsBrandPages;
 import cn.rlfit.gulimall.product.service.PmsBrandService;
 import cn.rlfit.gulimall.utils.resp.R;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -56,12 +60,25 @@ public class PmsBrandController {
     /**
      * 更新品牌
      * @param pmsBrand 更新数据实体
+     * @param bindingResult 可以获取到校验的结果
      * @return 根性成功
      */
     @RequestMapping("/save")
-    public R updateBrandData(@RequestBody PmsBrand pmsBrand){
-        pmsBrandService.updateBrandData(pmsBrand);
-        return R.ok();
+    public R updateBrandData(@Valid @RequestBody PmsBrand pmsBrand, BindingResult bindingResult){
+        if (bindingResult.hasErrors()){
+            Map<String,String> map = new HashMap<>();
+            for (FieldError fieldError : bindingResult.getFieldErrors()) {
+                String defaultMessage = fieldError.getDefaultMessage();
+                String field = fieldError.getField();
+                map.put(defaultMessage, field);
+            }
+            // 有错误
+            return R.error(400,"提交的数据不合法").put("data",map);
+        }else {
+            pmsBrandService.updateBrandData(pmsBrand);
+            return R.ok();
+            // 没有错误
+        }
     }
 
     /**
