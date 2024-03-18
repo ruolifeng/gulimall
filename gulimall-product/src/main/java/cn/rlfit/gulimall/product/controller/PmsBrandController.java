@@ -4,10 +4,12 @@ import cn.rlfit.gulimall.product.domain.PmsBrand;
 import cn.rlfit.gulimall.product.domain.PmsBrandPages;
 import cn.rlfit.gulimall.product.service.PmsBrandService;
 import cn.rlfit.gulimall.utils.resp.R;
+import cn.rlfit.gulimall.valid.AddGroup;
+import cn.rlfit.gulimall.valid.UpdateGroup;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import javax.validation.Valid;
 import java.util.Map;
 
 /**
@@ -27,7 +29,7 @@ public class PmsBrandController {
      * @return 查询结果
      */
     @GetMapping("/list")
-    public R getAllBrandList(@RequestParam Map<String,Object> pms){
+    public R getAllBrandList(@RequestParam Map<String, Object> pms) {
         PmsBrandPages list = pmsBrandService.getBrandAllList(pms);
         return R.ok().put("data", list);
     }
@@ -38,7 +40,7 @@ public class PmsBrandController {
      * @return 增加成功返回值
      */
     @PostMapping("/save")
-    public R saveBrandData(@RequestBody PmsBrand pmsBrand){
+    public R saveBrandData(@RequestBody PmsBrand pmsBrand) {
         pmsBrandService.saveBrand(pmsBrand);
         return R.ok();
     }
@@ -49,7 +51,7 @@ public class PmsBrandController {
      * @return 修改成功
      */
     @PostMapping("/update/status")
-    public R updateBrandStatus(@RequestBody PmsBrand pmsBrand){
+    public R updateBrandStatus(@RequestBody PmsBrand pmsBrand) {
         pmsBrandService.updateBrandStatus(pmsBrand);
         return R.ok();
     }
@@ -57,11 +59,10 @@ public class PmsBrandController {
     /**
      * 更新品牌
      * @param pmsBrand 更新数据实体
-     * @param bindingResult 可以获取到校验的结果
      * @return 根性成功
      */
     @RequestMapping("/save")
-    public R updateBrandData(@Valid @RequestBody PmsBrand pmsBrand){
+    public R updateBrandData(@Validated({AddGroup.class}) @RequestBody PmsBrand pmsBrand) {
 //        if (bindingResult.hasErrors()){
 //            Map<String,String> map = new HashMap<>();
 //            for (FieldError fieldError : bindingResult.getFieldErrors()) {
@@ -84,18 +85,19 @@ public class PmsBrandController {
      * @return 删除成功
      */
     @PostMapping("/delete")
-    public R deleteBrand(@RequestBody Long[] ids){
+    public R deleteBrand(@RequestBody Long[] ids) {
         pmsBrandService.deleteOneById(ids);
         return R.ok();
     }
 
     @GetMapping("/info/{id}")
-    public R getOneInfo(@PathVariable Integer id){
+    public R getOneInfo(@PathVariable Integer id) {
         PmsBrand oneInfo = pmsBrandService.getOneInfo(id);
         return R.ok().put("data", oneInfo);
     }
+
     @PostMapping("/update")
-    public R updateInfo(@RequestBody PmsBrand pmsBrand){
+    public R updateInfo(@Validated({UpdateGroup.class}) @RequestBody PmsBrand pmsBrand) {
         pmsBrandService.updateInfo(pmsBrand);
         return R.ok();
     }
