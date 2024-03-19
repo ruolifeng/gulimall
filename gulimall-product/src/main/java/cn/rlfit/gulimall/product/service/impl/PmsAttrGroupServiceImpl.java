@@ -7,6 +7,7 @@ import cn.rlfit.gulimall.product.service.PmsAttrGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -48,5 +49,15 @@ public class PmsAttrGroupServiceImpl implements PmsAttrGroupService {
         pageUtils.setCurrentPage(page);
         pageUtils.setTotalCount(count);
         return pageUtils;
+    }
+
+    @Override
+    public void save(PmsAttrGroup pmsAttrGroup) {
+        pmsAttrGroupMapper.insertSelective(pmsAttrGroup);
+    }
+
+    @Override
+    public void delete(Long[] id) {
+        Arrays.stream(id).distinct().forEach(x -> pmsAttrGroupMapper.deleteByPrimaryKey(x));
     }
 }

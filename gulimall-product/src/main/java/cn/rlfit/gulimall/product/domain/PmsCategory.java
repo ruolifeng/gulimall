@@ -1,9 +1,10 @@
 package cn.rlfit.gulimall.product.domain;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Data;
+
 import java.io.Serializable;
 import java.util.List;
-
-import lombok.Data;
 
 /**
  * 商品三级分类
@@ -59,6 +60,7 @@ public class PmsCategory implements Serializable {
     /**
      * 子分类
      */
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<PmsCategory> children;
 
     private static final long serialVersionUID = 1L;

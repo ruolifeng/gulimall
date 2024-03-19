@@ -12,4 +12,8 @@ import java.util.Map;
  */
 public interface PmsAttrGroupService {
     PageUtils<PmsAttrGroup> queryPage(Map<String, Object> pms, Long catalogId);
+
+    void save(PmsAttrGroup pmsAttrGroup);
+
+    void delete(Long[] id);
 }
