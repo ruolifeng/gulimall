@@ -3,89 +3,137 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.rlfit.gulimall.product.mapper.PmsAttrGroupMapper">
-
     <resultMap id="BaseResultMap" type="cn.rlfit.gulimall.product.domain.PmsAttrGroup">
-            <id property="attrGroupId" column="attr_group_id" jdbcType="BIGINT"/>
-            <result property="attrGroupName" column="attr_group_name" jdbcType="CHAR"/>
-            <result property="sort" column="sort" jdbcType="INTEGER"/>
-            <result property="descript" column="descript" jdbcType="VARCHAR"/>
-            <result property="icon" column="icon" jdbcType="VARCHAR"/>
-            <result property="catelogId" column="catelog_id" jdbcType="BIGINT"/>
+        <id property="attrGroupId" column="attr_group_id" jdbcType="BIGINT"/>
+        <result property="attrGroupName" column="attr_group_name" jdbcType="CHAR"/>
+        <result property="sort" column="sort" jdbcType="INTEGER"/>
+        <result property="descript" column="descript" jdbcType="VARCHAR"/>
+        <result property="icon" column="icon" jdbcType="VARCHAR"/>
+        <result property="catelogId" column="catelog_id" jdbcType="BIGINT"/>
     </resultMap>
-
     <sql id="Base_Column_List">
-        attr_group_id,attr_group_name,sort,
-        descript,icon,catelog_id
+        attr_group_id,
+        attr_group_name,
+        sort,
+        descript,
+        icon,
+        catelog_id
     </sql>
 
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
         select
-        <include refid="Base_Column_List" />
+        <include refid="Base_Column_List"/>
         from pms_attr_group
-        where  attr_group_id = #{attrGroupId,jdbcType=BIGINT} 
+        where attr_group_id = #{attrGroupId,jdbcType=BIGINT}
     </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-        delete from pms_attr_group
-        where  attr_group_id = #{attrGroupId,jdbcType=BIGINT} 
+        delete
+        from pms_attr_group
+        where attr_group_id = #{attrGroupId,jdbcType=BIGINT}
     </delete>
-    <insert id="insert" keyColumn="attr_group_id" keyProperty="attrGroupId" parameterType="cn.rlfit.gulimall.product.domain.PmsAttrGroup" useGeneratedKeys="true">
+    <insert id="insert" keyColumn="attr_group_id" keyProperty="attrGroupId"
+            parameterType="cn.rlfit.gulimall.product.domain.PmsAttrGroup" useGeneratedKeys="true">
         insert into pms_attr_group
-        ( attr_group_id,attr_group_name,sort
-        ,descript,icon,catelog_id
-        )
-        values (#{attrGroupId,jdbcType=BIGINT},#{attrGroupName,jdbcType=CHAR},#{sort,jdbcType=INTEGER}
-        ,#{descript,jdbcType=VARCHAR},#{icon,jdbcType=VARCHAR},#{catelogId,jdbcType=BIGINT}
-        )
+        ( attr_group_id, attr_group_name, sort
+        , descript, icon, catelog_id)
+        values ( #{attrGroupId,jdbcType=BIGINT}, #{attrGroupName,jdbcType=CHAR}, #{sort,jdbcType=INTEGER}
+               , #{descript,jdbcType=VARCHAR}, #{icon,jdbcType=VARCHAR}, #{catelogId,jdbcType=BIGINT})
     </insert>
-    <insert id="insertSelective" keyColumn="attr_group_id" keyProperty="attrGroupId" parameterType="cn.rlfit.gulimall.product.domain.PmsAttrGroup" useGeneratedKeys="true">
+    <insert id="insertSelective" keyColumn="attr_group_id" keyProperty="attrGroupId"
+            parameterType="cn.rlfit.gulimall.product.domain.PmsAttrGroup" useGeneratedKeys="true">
         insert into pms_attr_group
         <trim prefix="(" suffix=")" suffixOverrides=",">
-                <if test="attrGroupId != null">attr_group_id,</if>
-                <if test="attrGroupName != null">attr_group_name,</if>
-                <if test="sort != null">sort,</if>
-                <if test="descript != null">descript,</if>
-                <if test="icon != null">icon,</if>
-                <if test="catelogId != null">catelog_id,</if>
+            <if test="attrGroupId != null">
+                attr_group_id,
+            </if>
+            <if test="attrGroupName != null">
+                attr_group_name,
+            </if>
+            <if test="sort != null">
+                sort,
+            </if>
+            <if test="descript != null">
+                descript,
+            </if>
+            <if test="icon != null">
+                icon,
+            </if>
+            <if test="catelogId != null">
+                catelog_id,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-                <if test="attrGroupId != null">#{attrGroupId,jdbcType=BIGINT},</if>
-                <if test="attrGroupName != null">#{attrGroupName,jdbcType=CHAR},</if>
-                <if test="sort != null">#{sort,jdbcType=INTEGER},</if>
-                <if test="descript != null">#{descript,jdbcType=VARCHAR},</if>
-                <if test="icon != null">#{icon,jdbcType=VARCHAR},</if>
-                <if test="catelogId != null">#{catelogId,jdbcType=BIGINT},</if>
+            <if test="attrGroupId != null">
+                #{attrGroupId,jdbcType=BIGINT},
+            </if>
+            <if test="attrGroupName != null">
+                #{attrGroupName,jdbcType=CHAR},
+            </if>
+            <if test="sort != null">
+                #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="descript != null">
+                #{descript,jdbcType=VARCHAR},
+            </if>
+            <if test="icon != null">
+                #{icon,jdbcType=VARCHAR},
+            </if>
+            <if test="catelogId != null">
+                #{catelogId,jdbcType=BIGINT},
+            </if>
         </trim>
     </insert>
     <update id="updateByPrimaryKeySelective" parameterType="cn.rlfit.gulimall.product.domain.PmsAttrGroup">
         update pms_attr_group
         <set>
-                <if test="attrGroupName != null">
-                    attr_group_name = #{attrGroupName,jdbcType=CHAR},
-                </if>
-                <if test="sort != null">
-                    sort = #{sort,jdbcType=INTEGER},
-                </if>
-                <if test="descript != null">
-                    descript = #{descript,jdbcType=VARCHAR},
-                </if>
-                <if test="icon != null">
-                    icon = #{icon,jdbcType=VARCHAR},
-                </if>
-                <if test="catelogId != null">
-                    catelog_id = #{catelogId,jdbcType=BIGINT},
-                </if>
+            <if test="attrGroupName != null">
+                attr_group_name = #{attrGroupName,jdbcType=CHAR},
+            </if>
+            <if test="sort != null">
+                sort = #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="descript != null">
+                descript = #{descript,jdbcType=VARCHAR},
+            </if>
+            <if test="icon != null">
+                icon = #{icon,jdbcType=VARCHAR},
+            </if>
+            <if test="catelogId != null">
+                catelog_id = #{catelogId,jdbcType=BIGINT},
+            </if>
         </set>
-        where   attr_group_id = #{attrGroupId,jdbcType=BIGINT} 
+        where attr_group_id = #{attrGroupId,jdbcType=BIGINT}
     </update>
     <update id="updateByPrimaryKey" parameterType="cn.rlfit.gulimall.product.domain.PmsAttrGroup">
         update pms_attr_group
-        set 
-            attr_group_name =  #{attrGroupName,jdbcType=CHAR},
-            sort =  #{sort,jdbcType=INTEGER},
-            descript =  #{descript,jdbcType=VARCHAR},
-            icon =  #{icon,jdbcType=VARCHAR},
-            catelog_id =  #{catelogId,jdbcType=BIGINT}
-        where   attr_group_id = #{attrGroupId,jdbcType=BIGINT} 
+        set attr_group_name = #{attrGroupName,jdbcType=CHAR},
+            sort            = #{sort,jdbcType=INTEGER},
+            descript        = #{descript,jdbcType=VARCHAR},
+            icon            = #{icon,jdbcType=VARCHAR},
+            catelog_id      = #{catelogId,jdbcType=BIGINT}
+        where attr_group_id = #{attrGroupId,jdbcType=BIGINT}
     </update>
+    <select id="queryPage" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List">
+        </include>
+        from pms_attr_group
+        <where>
+            <if test="catalog != null and catalog != 0">
+                catelog_id = #{catalog}
+            </if>
+            <if test="key != null and key != ''">
+                and attr_group_id = #{key}
+                   or attr_group_name like concat('%',#{key},'%')
+            </if>
+        </where>
+        <if test="size != null and page != null">
+            limit ${size},${page}
+        </if>
+    </select>
+    <select id="getCount" resultType="_int">
+        select count(*)
+        from pms_attr_group
+    </select>
 </mapper>
