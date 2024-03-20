@@ -6,6 +6,7 @@ import cn.rlfit.gulimall.product.service.PmsCategoryBrandRelationService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -26,5 +27,10 @@ public class PmsCategoryBrandRelationServiceImpl implements PmsCategoryBrandRela
     @Override
     public void save(PmsCategoryBrandRelation relation) {
         pmsCategoryBrandRelationMapper.insertSelective(relation);
+    }
+
+    @Override
+    public void delete(Long[] ids) {
+        Arrays.stream(ids).distinct().forEach(x->pmsCategoryBrandRelationMapper.deleteByPrimaryKey(x));
     }
 }

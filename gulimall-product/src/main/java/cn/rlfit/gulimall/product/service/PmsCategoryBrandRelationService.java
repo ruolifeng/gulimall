@@ -14,4 +14,6 @@ public interface PmsCategoryBrandRelationService {
     List<PmsCategoryBrandRelation> getRelation(Long brandId);
 
     void save(PmsCategoryBrandRelation relation);
+
+    void delete(Long[] ids);
 }

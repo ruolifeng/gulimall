@@ -51,4 +51,9 @@ public class PmsCategoryBrandRelationController {
         pmsCategoryBrandRelationservice.save(relation);
         return R.ok();
     }
+    @PostMapping("delete")
+    public R deleteById(@RequestBody Long[] ids){
+        pmsCategoryBrandRelationservice.delete(ids);
+        return R.ok();
+    }
 }
