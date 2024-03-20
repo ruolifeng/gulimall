@@ -88,4 +88,9 @@
             where brand_id = #{brandId,jdbcType=BIGINT}
         </if>
     </select>
+    <update id="updateRelationName">
+        update pms_category_brand_relation
+        set brand_name = #{name,jdbcType=VARCHAR}
+        where brand_id = #{brandId,jdbcType=BIGINT}
+    </update>
 </mapper>

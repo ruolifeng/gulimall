@@ -2,6 +2,7 @@ package cn.rlfit.gulimall.product.mapper;
 
 import cn.rlfit.gulimall.product.domain.PmsCategory;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -29,4 +30,6 @@ public interface PmsCategoryMapper {
     List<PmsCategory> getAllCategory();
 
     void deleteMenusByCatIds(Long catId);
+
+    void updateRelation(@Param("catId") Long catId,@Param("name") String name);
 }

@@ -7,11 +7,11 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 /**
-* @author 18777
-* @description 针对表【pms_category_brand_relation(品牌分类关联)】的数据库操作Mapper
-* @createDate 2024-03-12 13:59:57
-* @Entity cn.rlfit.gulimall.product.domain.PmsCategoryBrandRelation
-*/
+ * @author 18777
+ * @description 针对表【pms_category_brand_relation(品牌分类关联)】的数据库操作Mapper
+ * @createDate 2024-03-12 13:59:57
+ * @Entity cn.rlfit.gulimall.product.domain.PmsCategoryBrandRelation
+ */
 @Mapper
 public interface PmsCategoryBrandRelationMapper {
 
@@ -28,4 +28,6 @@ public interface PmsCategoryBrandRelationMapper {
     int updateByPrimaryKey(PmsCategoryBrandRelation record);
 
     List<PmsCategoryBrandRelation> getRelation(@Param("brandId") Long brandId);
+
+    void updateRelationName(@Param("brandId") Long brandId, @Param("name") String name);
 }

@@ -3,6 +3,7 @@ package cn.rlfit.gulimall.product.service.impl;
 import cn.rlfit.gulimall.product.domain.PmsBrand;
 import cn.rlfit.gulimall.product.domain.PmsBrandPages;
 import cn.rlfit.gulimall.product.mapper.PmsBrandMapper;
+import cn.rlfit.gulimall.product.mapper.PmsCategoryBrandRelationMapper;
 import cn.rlfit.gulimall.product.service.PmsBrandService;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,8 @@ import java.util.Map;
 public class PmsBrandServiceImpl implements PmsBrandService {
     @Resource
     PmsBrandMapper pmsBrandMapper;
+    @Resource
+    PmsCategoryBrandRelationMapper pmsCategoryBrandRelationMapper;
     @Override
     public PmsBrandPages getBrandAllList(Map<String, Object> pms) {
         Integer page = Integer.parseInt((String) pms.get("page"));
@@ -60,6 +63,10 @@ public class PmsBrandServiceImpl implements PmsBrandService {
 
     @Override
     public void updateInfo(PmsBrand pmsBrand) {
+        if (pmsBrand.getName() != null){
+            pmsCategoryBrandRelationMapper.updateRelationName(pmsBrand.getBrandId(),pmsBrand.getName());
+        }
+//        TODO 在更新冗余数据之后还需要更新其他数据
         pmsBrandMapper.updateByPrimaryKeySelective(pmsBrand);
     }
 }

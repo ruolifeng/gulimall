@@ -3,6 +3,7 @@ package cn.rlfit.gulimall.product.service.impl;
 import cn.rlfit.gulimall.product.domain.PmsCategory;
 import cn.rlfit.gulimall.product.mapper.PmsCategoryMapper;
 import cn.rlfit.gulimall.product.service.PmsCategoryService;
+import com.alibaba.nacos.common.utils.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,6 +51,8 @@ public class PmsCategoryServiceImpl implements PmsCategoryService {
 
     @Override
     public void updateCategory(PmsCategory category) {
+        if (!Objects.isNull(category.getName()))
+            pmsCategoryMapper.updateRelation(category.getCatId(),category.getName());
         pmsCategoryMapper.updateByPrimaryKeySelective(category);
     }
 
