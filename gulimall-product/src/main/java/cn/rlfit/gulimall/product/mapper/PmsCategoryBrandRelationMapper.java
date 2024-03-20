@@ -4,6 +4,8 @@ import cn.rlfit.gulimall.product.domain.PmsCategoryBrandRelation;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
 * @author 18777
 * @description 针对表【pms_category_brand_relation(品牌分类关联)】的数据库操作Mapper
@@ -25,4 +27,5 @@ public interface PmsCategoryBrandRelationMapper {
 
     int updateByPrimaryKey(PmsCategoryBrandRelation record);
 
+    List<PmsCategoryBrandRelation> getRelation(@Param("brandId") Long brandId);
 }

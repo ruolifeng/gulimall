@@ -76,7 +76,16 @@
             brand_id =  #{brandId,jdbcType=BIGINT},
             catelog_id =  #{catelogId,jdbcType=BIGINT},
             brand_name =  #{brandName,jdbcType=VARCHAR},
-            catelog_name =  #{catelogName,jdbcType=VARCHAR}
+            catelog_name = #{catelogName,jdbcType=VARCHAR}
         where   id = #{id,jdbcType=BIGINT} 
     </update>
+    <select id="getRelation" parameterType="long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List">
+        </include>
+        from pms_category_brand_relation
+        <if test=" brandId != null and brandId != ''">
+            where brand_id = #{brandId,jdbcType=BIGINT}
+        </if>
+    </select>
 </mapper>

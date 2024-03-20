@@ -1,7 +1,8 @@
 package cn.rlfit.gulimall.product.service;
 
 import cn.rlfit.gulimall.product.domain.PmsCategoryBrandRelation;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
 
 /**
  * @author: sunjianrong
@@ -10,5 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public interface PmsCategoryBrandRelationService {
 
-    PmsCategoryBrandRelation selectByPrimaryKey(int id);
+    List<PmsCategoryBrandRelation> getRelation(Long brandId);
+
+    void save(PmsCategoryBrandRelation relation);
 }

@@ -129,7 +129,7 @@
             sort         = #{sort,jdbcType=INTEGER}
         where brand_id = #{brandId,jdbcType=BIGINT}
     </update>
-    <select id="getBrandAllList" parameterType="map" resultMap="BaseResultMap">
+    <select id="getBrandAllList" resultMap="BaseResultMap">
         SELECT
         <include refid="Base_Column_List"/>
         FROM pms_brand
@@ -138,15 +138,9 @@
                 first_letter = #{key,jdbcType=CHAR}
             </if>
         </where>
-        <!--        <where>-->
-        <!--            show_status = 1-->
-        <!--            <if test="key != null and key != ''">-->
-        <!--                and first_letter = #{key,jdbcType=CHAR}-->
-        <!--            </if>-->
-        <!--        </where>-->
-        <!--        <if test="page != null and size != null">-->
-        <!--            limit #{page},#{size}-->
-        <!--        </if>-->
+<!--        <if test="page != null and size != null">-->
+<!--            limit ${page},${size}-->
+<!--        </if>-->
     </select>
     <select id="getCount" resultType="_int">
         select count(*)
