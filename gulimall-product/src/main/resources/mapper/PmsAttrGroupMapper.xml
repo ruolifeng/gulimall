@@ -136,4 +136,12 @@
         select count(*)
         from pms_attr_group
     </select>
+
+    <select id="getInfo" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List">
+        </include>
+        from pms_attr_group
+        where attr_group_id = #{id,jdbcType=BIGINT}
+    </select>
 </mapper>

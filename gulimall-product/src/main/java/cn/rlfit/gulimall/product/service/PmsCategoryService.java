@@ -21,4 +21,6 @@ public interface PmsCategoryService {
     PmsCategory getOneInfoById(Long catId);
 
     void updateBatchById(PmsCategory[] categories);
+
+    Long[] findCatelongPath(Long id);
 }

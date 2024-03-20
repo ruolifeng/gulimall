@@ -60,4 +60,14 @@ public class PmsAttrGroupServiceImpl implements PmsAttrGroupService {
     public void delete(Long[] id) {
         Arrays.stream(id).distinct().forEach(x -> pmsAttrGroupMapper.deleteByPrimaryKey(x));
     }
+
+    @Override
+    public PmsAttrGroup getInfo(Long id) {
+       return pmsAttrGroupMapper.getInfo(id);
+    }
+
+    @Override
+    public void update(PmsAttrGroup pmsAttrGroup) {
+        pmsAttrGroupMapper.updateByPrimaryKeySelective(pmsAttrGroup);
+    }
 }

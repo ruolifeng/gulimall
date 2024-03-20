@@ -40,6 +40,7 @@ public class PmsAttrGroup implements Serializable {
      */
     private Long catelogId;
 
+    private Long[] cateLogPath;
     private static final long serialVersionUID = 1L;
 
     @Override

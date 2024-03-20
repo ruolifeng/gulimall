@@ -3,6 +3,7 @@ package cn.rlfit.gulimall.product.controller;
 import cn.rlfit.gulimall.product.domain.PageUtils;
 import cn.rlfit.gulimall.product.domain.PmsAttrGroup;
 import cn.rlfit.gulimall.product.service.PmsAttrGroupService;
+import cn.rlfit.gulimall.product.service.PmsCategoryService;
 import cn.rlfit.gulimall.utils.resp.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +20,9 @@ import java.util.Map;
 public class PmsAttrGroupController {
     @Autowired
     private PmsAttrGroupService attrGroupService;
+
+    @Autowired
+    private PmsCategoryService pmsCategoryService;
 
     @RequestMapping("/list/{catalogId}")
     public R list(@RequestParam Map<String, Object> pms, @PathVariable Long catalogId){
@@ -41,6 +45,20 @@ public class PmsAttrGroupController {
     @PostMapping("/delete")
     public R delete(@RequestBody Long[] id){
         attrGroupService.delete(id);
+        return R.ok();
+    }
+
+    @GetMapping("/info/{id}")
+    public R getInfo(@PathVariable Long id){
+        PmsAttrGroup pmsAttrGroup = attrGroupService.getInfo(id);
+        Long[] path = pmsCategoryService.findCatelongPath(pmsAttrGroup.getCatelogId());
+        pmsAttrGroup.setCateLogPath(path);
+        return R.ok().put("data", pmsAttrGroup);
+    }
+
+    @PostMapping("/update")
+    public R update(@RequestBody PmsAttrGroup pmsAttrGroup){
+        attrGroupService.update(pmsAttrGroup);
         return R.ok();
     }
 }

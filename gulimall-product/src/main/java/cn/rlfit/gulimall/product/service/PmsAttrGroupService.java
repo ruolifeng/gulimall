@@ -16,4 +16,8 @@ public interface PmsAttrGroupService {
     void save(PmsAttrGroup pmsAttrGroup);
 
     void delete(Long[] id);
+
+    PmsAttrGroup getInfo(Long id);
+
+    void update(PmsAttrGroup pmsAttrGroup);
 }

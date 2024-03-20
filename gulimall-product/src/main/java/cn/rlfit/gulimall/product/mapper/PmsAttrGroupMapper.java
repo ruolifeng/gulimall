@@ -30,4 +30,6 @@ public interface PmsAttrGroupMapper {
     List<PmsAttrGroup> queryPage(@Param("key") String key, @Param("catalog") Long catalogId, @Param("page") Integer page, @Param("size") Integer size);
 
     Integer getCount();
+
+    PmsAttrGroup getInfo(Long id);
 }
