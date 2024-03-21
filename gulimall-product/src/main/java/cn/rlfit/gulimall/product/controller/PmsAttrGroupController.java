@@ -37,7 +37,7 @@ public class PmsAttrGroupController {
         pmsAttrGroup.setDescript((String) pms.get("descript"));
         pmsAttrGroup.setIcon((String) pms.get("icon"));
         pmsAttrGroup.setCatelogId(((Integer)pms.get("catelogId")).longValue());
-        pmsAttrGroup.setSort((Integer) pms.get("sort"));
+        pmsAttrGroup.setSort(Integer.parseInt((String) pms.get("sort")));
         attrGroupService.save(pmsAttrGroup);
         return R.ok();
     }
