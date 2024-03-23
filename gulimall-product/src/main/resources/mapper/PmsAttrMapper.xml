@@ -120,4 +120,10 @@
             show_desc =  #{showDesc,jdbcType=TINYINT}
         where   attr_id = #{attrId,jdbcType=BIGINT} 
     </update>
+    <select id="seleAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List">
+        </include>
+        from pms_attr;
+    </select>
 </mapper>

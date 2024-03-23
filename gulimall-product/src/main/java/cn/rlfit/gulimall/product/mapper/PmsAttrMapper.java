@@ -3,6 +3,8 @@ package cn.rlfit.gulimall.product.mapper;
 import cn.rlfit.gulimall.product.domain.PmsAttr;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 /**
 * @author 18777
 * @description 针对表【pms_attr(商品属性)】的数据库操作Mapper
@@ -24,4 +26,5 @@ public interface PmsAttrMapper {
 
     int updateByPrimaryKey(PmsAttr record);
 
+    List<PmsAttr> seleAll();
 }
