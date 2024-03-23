@@ -67,4 +67,10 @@ public class PmsAttrController {
         pmsAttrService.update(vo);
         return R.ok();
     }
+
+    @PostMapping("/delete")
+    public R delete(@RequestBody Long[] ids){
+        pmsAttrService.delete(ids);
+        return R.ok();
+    }
 }

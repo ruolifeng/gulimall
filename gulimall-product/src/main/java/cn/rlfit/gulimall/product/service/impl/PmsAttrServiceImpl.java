@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -122,6 +123,18 @@ public class PmsAttrServiceImpl implements PmsAttrService {
         PmsAttrAttrgroupRelation relation = new PmsAttrAttrgroupRelation();
         BeanUtils.copyProperties(vo, relation);
         pmsAttrMapper.updateByPrimaryKey(attr);
-        pmsAttrAttrgroupRelationMapper.updateByAttrId(vo.getAttrId(),vo.getAttrGroupId());
+        pmsAttrAttrgroupRelationMapper.updateByAttrId(vo.getAttrId(), vo.getAttrGroupId());
+    }
+
+    @Transactional
+    @Override
+    public void delete(Long[] ids) {
+        // TODO当属性表和属性关系表中的字段数量不一致的时候可能会出现bug
+        Arrays.stream(ids).distinct().forEach((x) -> {
+            PmsAttr pmsAttr = pmsAttrMapper.selectByPrimaryKey(x, null, null, null);
+            pmsAttrAttrgroupRelationMapper.deleteByPrimaryKey(x);
+            pmsAttrMapper.deleteByPrimaryKey(x);
+
+        });
     }
 }

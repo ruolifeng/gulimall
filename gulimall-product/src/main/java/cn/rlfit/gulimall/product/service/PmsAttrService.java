@@ -19,4 +19,6 @@ public interface PmsAttrService {
     AttrRespVo getOneInfo(Long id);
 
     void update(AttrRespVo vo);
+
+    void delete(Long[] ids);
 }
