@@ -24,4 +24,5 @@ public interface PmsAttrAttrgroupRelationMapper {
 
     int updateByPrimaryKey(PmsAttrAttrgroupRelation record);
 
+    void updateByAttrId(Long attrId,Long getAttrGroupId);
 }

@@ -55,6 +55,16 @@ public class PmsAttrController {
             vo.setCatalogPath(catelongPath);
         }
         return R.ok().put("data", vo);
+    }
 
+    /**
+     * 更新数据
+     * @param vo 更新数据
+     * @return 更新成功
+     */
+    @PostMapping("/update")
+    public R update(@RequestBody AttrRespVo vo){
+        pmsAttrService.update(vo);
+        return R.ok();
     }
 }

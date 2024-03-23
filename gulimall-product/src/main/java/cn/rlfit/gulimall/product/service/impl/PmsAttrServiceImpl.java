@@ -113,4 +113,15 @@ public class PmsAttrServiceImpl implements PmsAttrService {
         BeanUtils.copyProperties(pmsAttr, vo);
         return vo;
     }
+
+    @Override
+    @Transactional
+    public void update(AttrRespVo vo) {
+        PmsAttr attr = new PmsAttr();
+        BeanUtils.copyProperties(vo, attr);
+        PmsAttrAttrgroupRelation relation = new PmsAttrAttrgroupRelation();
+        BeanUtils.copyProperties(vo, relation);
+        pmsAttrMapper.updateByPrimaryKey(attr);
+        pmsAttrAttrgroupRelationMapper.updateByAttrId(vo.getAttrId(),vo.getAttrGroupId());
+    }
 }

@@ -17,4 +17,6 @@ public interface PmsAttrService {
     PageUtils<AttrVo> getInfo(Integer catId, Map<String,Object> pms);
 
     AttrRespVo getOneInfo(Long id);
+
+    void update(AttrRespVo vo);
 }

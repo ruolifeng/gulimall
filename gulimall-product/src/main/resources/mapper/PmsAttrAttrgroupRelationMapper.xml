@@ -20,12 +20,12 @@
         select
         <include refid="Base_Column_List" />
         from pms_attr_attrgroup_relation
-        where  id = #{id,jdbcType=BIGINT} 
+        where  id = #{id,jdbcType=BIGINT}
     </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
         delete from pms_attr_attrgroup_relation
-        where  id = #{id,jdbcType=BIGINT} 
+        where  id = #{id,jdbcType=BIGINT}
     </delete>
     <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.rlfit.gulimall.product.domain.PmsAttrAttrgroupRelation" useGeneratedKeys="true">
         insert into pms_attr_attrgroup_relation
@@ -62,14 +62,19 @@
                     attr_sort = #{attrSort,jdbcType=INTEGER},
                 </if>
         </set>
-        where   id = #{id,jdbcType=BIGINT} 
+        where   id = #{id,jdbcType=BIGINT}
     </update>
     <update id="updateByPrimaryKey" parameterType="cn.rlfit.gulimall.product.domain.PmsAttrAttrgroupRelation">
         update pms_attr_attrgroup_relation
-        set 
+        set
             attr_id =  #{attrId,jdbcType=BIGINT},
             attr_group_id =  #{attrGroupId,jdbcType=BIGINT},
             attr_sort =  #{attrSort,jdbcType=INTEGER}
-        where   id = #{id,jdbcType=BIGINT} 
+        where   id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByAttrId">
+        update gulimall_pms.pms_attr_attrgroup_relation
+        set gulimall_pms.pms_attr_attrgroup_relation.attr_group_id = #{param2,jdbcType=BIGINT}
+        where id = #{param1,jdbcType=BIGINT}
     </update>
 </mapper>
