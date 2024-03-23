@@ -24,11 +24,19 @@
         show_desc
     </sql>
 
-    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap">
         select
-        <include refid="Base_Column_List" />
+        <include refid="Base_Column_List"/>
         from pms_attr
-        where  attr_id = #{attrId,jdbcType=BIGINT} 
+        where attr_id = #{id,jdbcType=BIGINT}
+        <where>
+            <if test="key != null and key != ''">
+                attr_name = #{key}
+            </if>
+        </where>
+        <if test="size != null and size != '' and page != null and page != ''">
+            limit ${page -1},${size}
+        </if>
     </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
@@ -124,6 +132,17 @@
         select
         <include refid="Base_Column_List">
         </include>
-        from pms_attr;
+        from pms_attr
+        <where>
+            <if test="key != null and key != ''">
+                attr_name = #{key}
+            </if>
+        </where>
+        <if test="size != null and size != '' and page != null and page != ''">
+            limit ${page -1},${size}
+        </if>
+    </select>
+    <select id="getCount" resultType="int">
+        select count(*) from pms_attr;
     </select>
 </mapper>

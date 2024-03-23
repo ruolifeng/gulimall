@@ -1,8 +1,9 @@
 package cn.rlfit.gulimall.product.service;
 
+import cn.rlfit.gulimall.product.domain.PageUtils;
 import cn.rlfit.gulimall.product.vo.AttrVo;
 
-import java.util.List;
+import java.util.Map;
 
 /**
  * @author: sunjianrong
@@ -12,5 +13,5 @@ import java.util.List;
 public interface PmsAttrService {
     void saveAttr(AttrVo vo);
 
-    List<AttrVo> getInfo(Integer catId);
+    PageUtils<AttrVo> getInfo(Integer catId, Map<String,Object> pms);
 }

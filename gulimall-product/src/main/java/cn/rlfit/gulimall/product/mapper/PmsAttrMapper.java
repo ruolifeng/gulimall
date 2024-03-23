@@ -2,6 +2,7 @@ package cn.rlfit.gulimall.product.mapper;
 
 import cn.rlfit.gulimall.product.domain.PmsAttr;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -20,11 +21,13 @@ public interface PmsAttrMapper {
 
     int insertSelective(PmsAttr record);
 
-    PmsAttr selectByPrimaryKey(Long id);
+    PmsAttr selectByPrimaryKey(@Param("id") Long id, @Param("page") Integer page,@Param("size") Integer size,@Param("key") String key);
 
     int updateByPrimaryKeySelective(PmsAttr record);
 
     int updateByPrimaryKey(PmsAttr record);
 
-    List<PmsAttr> seleAll();
+    List<PmsAttr> seleAll(@Param("page") Integer page,@Param("size") Integer size,@Param("key") String key);
+
+    int getCount();
 }

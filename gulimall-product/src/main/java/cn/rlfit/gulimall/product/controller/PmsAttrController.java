@@ -1,12 +1,13 @@
 package cn.rlfit.gulimall.product.controller;
 
+import cn.rlfit.gulimall.product.domain.PageUtils;
 import cn.rlfit.gulimall.product.service.PmsAttrService;
 import cn.rlfit.gulimall.product.vo.AttrVo;
 import cn.rlfit.gulimall.utils.resp.R;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.List;
+import java.util.Map;
 
 /**
  * @author: sunjianrong
@@ -19,8 +20,8 @@ public class PmsAttrController {
     @Resource
     PmsAttrService pmsAttrService;
     @GetMapping("/base/list/{catId}")
-    public R getBaseInfo(@PathVariable Integer catId){
-        List<AttrVo> vo =  pmsAttrService.getInfo(catId);;
+    public R getBaseInfo(@PathVariable Integer catId, @RequestParam Map<String,Object> pms){
+        PageUtils<AttrVo> vo =  pmsAttrService.getInfo(catId,pms);
         return R.ok().put("data", vo);
     }
 
