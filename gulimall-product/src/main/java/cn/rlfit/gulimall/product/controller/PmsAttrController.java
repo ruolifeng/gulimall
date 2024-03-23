@@ -2,6 +2,7 @@ package cn.rlfit.gulimall.product.controller;
 
 import cn.rlfit.gulimall.product.domain.PageUtils;
 import cn.rlfit.gulimall.product.service.PmsAttrService;
+import cn.rlfit.gulimall.product.vo.AttrRespVo;
 import cn.rlfit.gulimall.product.vo.AttrVo;
 import cn.rlfit.gulimall.utils.resp.R;
 import org.springframework.web.bind.annotation.*;
@@ -35,5 +36,16 @@ public class PmsAttrController {
         System.out.println(vo);
         pmsAttrService.saveAttr(vo);
         return R.ok();
+    }
+
+    /**
+     * 当用户点击修改属性信息的时候回显属性信息
+     * @param id 属性id
+     * @return 获取单个属性信息成功
+     */
+    @GetMapping("/info/{id}")
+    public R getOneInfo(@PathVariable Long id){
+        AttrRespVo vo = pmsAttrService.getOneInfo(id);
+        return R.ok().put("data", vo);
     }
 }

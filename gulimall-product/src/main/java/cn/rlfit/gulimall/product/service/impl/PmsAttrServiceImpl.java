@@ -1,9 +1,6 @@
 package cn.rlfit.gulimall.product.service.impl;
 
-import cn.rlfit.gulimall.product.domain.PageUtils;
-import cn.rlfit.gulimall.product.domain.PmsAttr;
-import cn.rlfit.gulimall.product.domain.PmsAttrAttrgroupRelation;
-import cn.rlfit.gulimall.product.domain.PmsAttrGroup;
+import cn.rlfit.gulimall.product.domain.*;
 import cn.rlfit.gulimall.product.mapper.PmsAttrAttrgroupRelationMapper;
 import cn.rlfit.gulimall.product.mapper.PmsAttrGroupMapper;
 import cn.rlfit.gulimall.product.mapper.PmsAttrMapper;
@@ -53,7 +50,6 @@ public class PmsAttrServiceImpl implements PmsAttrService {
 
     @Override
     public PageUtils<AttrVo> getInfo(Integer catId, Map<String, Object> pms) {
-        // TODO 所属分组和分类，分页查询，页面大小还没有查询
         PageUtils<AttrVo> pageUtils = new PageUtils<>();
         Integer page = null;
         Integer size = null;
@@ -66,7 +62,6 @@ public class PmsAttrServiceImpl implements PmsAttrService {
             key = (String) pms.get("key");
         List<PmsAttr> attr = null;
         List<AttrVo> attrVos = new ArrayList<>();
-        AttrRespVo vo = new AttrRespVo();
         if (catId == 0) {
             attr = pmsAttrMapper.seleAll(page, size, key);
         } else {
@@ -75,6 +70,7 @@ public class PmsAttrServiceImpl implements PmsAttrService {
             attr.add(pms2);
         }
         attr.forEach(x -> {
+            AttrRespVo vo = new AttrRespVo();
             BeanUtils.copyProperties(x, vo);
             String name = pmsCategoryMapper.selectByPrimaryKey(x.getCatelogId()).getName();
             vo.setCatelogName(name);
@@ -92,5 +88,21 @@ public class PmsAttrServiceImpl implements PmsAttrService {
         pageUtils.setCurrentPage(page);
         pageUtils.setTotalCount(count);
         return pageUtils;
+    }
+
+    @Override
+    public AttrRespVo getOneInfo(Long id) {
+        AttrRespVo vo = new AttrRespVo();
+        // 获取基本属性信息
+        PmsAttr pmsAttr = pmsAttrMapper.selectByPrimaryKey(id, null, null, null);
+        // 获取分类信息
+        PmsCategory pmsCategory = pmsCategoryMapper.selectByPrimaryKey(pmsAttr.getCatelogId());
+        // 获取分组信息
+        PmsAttrGroup pmsAttrGroup = pmsAttrGroupMapper.selectByPrimaryKey(pmsAttrAttrgroupRelationMapper.selectByPrimaryKey(pmsAttr.getAttrId()).getAttrGroupId());
+        //组合
+        BeanUtils.copyProperties(pmsAttr, vo);
+        vo.setGroupName(pmsAttrGroup.getAttrGroupName());
+        vo.setCatelogName(pmsCategory.getName());
+        return vo;
     }
 }

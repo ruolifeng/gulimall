@@ -35,7 +35,7 @@
             </if>
         </where>
         <if test="size != null and size != '' and page != null and page != ''">
-            limit ${page -1},${size}
+            limit ${page - 1},${size}
         </if>
     </select>
 
@@ -139,7 +139,7 @@
             </if>
         </where>
         <if test="size != null and size != '' and page != null and page != ''">
-            limit ${page -1},${size}
+            limit ${page - 1},${size}
         </if>
     </select>
     <select id="getCount" resultType="int">
