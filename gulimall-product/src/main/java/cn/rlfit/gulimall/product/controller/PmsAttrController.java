@@ -23,9 +23,10 @@ public class PmsAttrController {
     PmsAttrService pmsAttrService;
     @Resource
     PmsCategoryService pmsCategoryService;
+
     @GetMapping("/base/list/{catId}")
-    public R getBaseInfo(@PathVariable Integer catId, @RequestParam Map<String,Object> pms){
-        PageUtils<AttrVo> vo =  pmsAttrService.getInfo(catId,pms);
+    public R getBaseInfo(@PathVariable Integer catId, @RequestParam Map<String, Object> pms) {
+        PageUtils<AttrVo> vo = pmsAttrService.getInfo(catId, pms);
         return R.ok().put("data", vo);
     }
 
@@ -35,7 +36,7 @@ public class PmsAttrController {
      * @return 属性数据保存成功
      */
     @PostMapping("/save")
-    public R save(@RequestBody AttrVo vo){
+    public R save(@RequestBody AttrVo vo) {
         System.out.println(vo);
         pmsAttrService.saveAttr(vo);
         return R.ok();
@@ -47,10 +48,12 @@ public class PmsAttrController {
      * @return 获取单个属性信息成功
      */
     @GetMapping("/info/{id}")
-    public R getOneInfo(@PathVariable Long id){
+    public R getOneInfo(@PathVariable Long id) {
         AttrRespVo vo = pmsAttrService.getOneInfo(id);
-        Long[] catelongPath = pmsCategoryService.findCatelongPath(vo.getCatelogId());
-        vo.setCatalogPath(catelongPath);
+        if (vo.getCatelogId() != null) {
+            Long[] catelongPath = pmsCategoryService.findCatelongPath(vo.getCatelogId());
+            vo.setCatalogPath(catelongPath);
+        }
         return R.ok().put("data", vo);
 
     }

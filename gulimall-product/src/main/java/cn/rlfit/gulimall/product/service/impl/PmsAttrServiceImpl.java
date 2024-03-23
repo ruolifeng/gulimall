@@ -74,7 +74,7 @@ public class PmsAttrServiceImpl implements PmsAttrService {
             BeanUtils.copyProperties(x, vo);
             String name = pmsCategoryMapper.selectByPrimaryKey(x.getCatelogId()).getName();
             vo.setCatelogName(name);
-            if (pmsAttrAttrgroupRelationMapper.selectByPrimaryKey(x.getAttrId()).getAttrGroupId() != null){
+            if (pmsAttrAttrgroupRelationMapper.selectByPrimaryKey(x.getAttrId()).getAttrGroupId() != null) {
 
                 PmsAttrGroup pmsAttrGroup = pmsAttrGroupMapper.selectByPrimaryKey(pmsAttrAttrgroupRelationMapper.selectByPrimaryKey(x.getAttrId()).getAttrGroupId());
                 String attrGroupName = pmsAttrGroup.getAttrGroupName();
@@ -96,13 +96,21 @@ public class PmsAttrServiceImpl implements PmsAttrService {
         // 获取基本属性信息
         PmsAttr pmsAttr = pmsAttrMapper.selectByPrimaryKey(id, null, null, null);
         // 获取分类信息
-        PmsCategory pmsCategory = pmsCategoryMapper.selectByPrimaryKey(pmsAttr.getCatelogId());
+        if (pmsAttr.getCatelogId() != null) {
+            PmsCategory pmsCategory = pmsCategoryMapper.selectByPrimaryKey(pmsAttr.getCatelogId());
+            if (pmsCategory.getName() != null) {
+                vo.setCatelogName(pmsCategory.getName());
+            }
+        }
         // 获取分组信息
-        PmsAttrGroup pmsAttrGroup = pmsAttrGroupMapper.selectByPrimaryKey(pmsAttrAttrgroupRelationMapper.selectByPrimaryKey(pmsAttr.getAttrId()).getAttrGroupId());
+        if (pmsAttrAttrgroupRelationMapper.selectByPrimaryKey(pmsAttr.getAttrId()).getAttrGroupId() != null) {
+
+            PmsAttrGroup pmsAttrGroup = pmsAttrGroupMapper.selectByPrimaryKey(pmsAttrAttrgroupRelationMapper.selectByPrimaryKey(pmsAttr.getAttrId()).getAttrGroupId());
+            if (pmsAttrGroup.getAttrGroupName() != null)
+                vo.setGroupName(pmsAttrGroup.getAttrGroupName());
+        }
         //组合
         BeanUtils.copyProperties(pmsAttr, vo);
-        vo.setGroupName(pmsAttrGroup.getAttrGroupName());
-        vo.setCatelogName(pmsCategory.getName());
         return vo;
     }
 }
