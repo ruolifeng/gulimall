@@ -2,6 +2,7 @@ package cn.rlfit.gulimall.product.controller;
 
 import cn.rlfit.gulimall.product.domain.PageUtils;
 import cn.rlfit.gulimall.product.service.PmsAttrService;
+import cn.rlfit.gulimall.product.service.PmsCategoryService;
 import cn.rlfit.gulimall.product.vo.AttrRespVo;
 import cn.rlfit.gulimall.product.vo.AttrVo;
 import cn.rlfit.gulimall.utils.resp.R;
@@ -20,6 +21,8 @@ import java.util.Map;
 public class PmsAttrController {
     @Resource
     PmsAttrService pmsAttrService;
+    @Resource
+    PmsCategoryService pmsCategoryService;
     @GetMapping("/base/list/{catId}")
     public R getBaseInfo(@PathVariable Integer catId, @RequestParam Map<String,Object> pms){
         PageUtils<AttrVo> vo =  pmsAttrService.getInfo(catId,pms);
@@ -46,6 +49,9 @@ public class PmsAttrController {
     @GetMapping("/info/{id}")
     public R getOneInfo(@PathVariable Long id){
         AttrRespVo vo = pmsAttrService.getOneInfo(id);
+        Long[] catelongPath = pmsCategoryService.findCatelongPath(vo.getCatelogId());
+        vo.setCatalogPath(catelongPath);
         return R.ok().put("data", vo);
+
     }
 }

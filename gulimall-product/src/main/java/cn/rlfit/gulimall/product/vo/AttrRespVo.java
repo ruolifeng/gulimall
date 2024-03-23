@@ -11,6 +11,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class AttrRespVo extends AttrVo{
-    String groupName;
-    String catelogName;
+    private String groupName;
+    private String catelogName;
+    private Long[] catalogPath;
 }
