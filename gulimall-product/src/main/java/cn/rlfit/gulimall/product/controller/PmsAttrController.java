@@ -24,9 +24,9 @@ public class PmsAttrController {
     @Resource
     PmsCategoryService pmsCategoryService;
 
-    @GetMapping("/base/list/{catId}")
-    public R getBaseInfo(@PathVariable Integer catId, @RequestParam Map<String, Object> pms) {
-        PageUtils<AttrVo> vo = pmsAttrService.getInfo(catId, pms);
+    @GetMapping("/{attrType}/list/{catId}")
+    public R getBaseInfo(@PathVariable Integer catId, @RequestParam Map<String, Object> pms, @PathVariable String attrType) {
+        PageUtils<AttrVo> vo = pmsAttrService.getInfo(catId, pms,attrType);
         return R.ok().put("data", vo);
     }
 
@@ -63,13 +63,13 @@ public class PmsAttrController {
      * @return 更新成功
      */
     @PostMapping("/update")
-    public R update(@RequestBody AttrRespVo vo){
+    public R update(@RequestBody AttrRespVo vo) {
         pmsAttrService.update(vo);
         return R.ok();
     }
 
     @PostMapping("/delete")
-    public R delete(@RequestBody Long[] ids){
+    public R delete(@RequestBody Long[] ids) {
         pmsAttrService.delete(ids);
         return R.ok();
     }

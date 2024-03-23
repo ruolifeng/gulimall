@@ -14,7 +14,7 @@ import java.util.Map;
 public interface PmsAttrService {
     void saveAttr(AttrVo vo);
 
-    PageUtils<AttrVo> getInfo(Integer catId, Map<String,Object> pms);
+    PageUtils<AttrVo> getInfo(Integer catId, Map<String,Object> pms, String attrType);
 
     AttrRespVo getOneInfo(Long id);
 

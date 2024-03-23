@@ -7,11 +7,11 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 /**
-* @author 18777
-* @description 针对表【pms_attr(商品属性)】的数据库操作Mapper
-* @createDate 2024-03-12 13:53:04
-* @Entity cn.rlfit.gulimall.product.domain.PmsAttr
-*/
+ * @author 18777
+ * @description 针对表【pms_attr(商品属性)】的数据库操作Mapper
+ * @createDate 2024-03-12 13:53:04
+ * @Entity cn.rlfit.gulimall.product.domain.PmsAttr
+ */
 @Mapper
 public interface PmsAttrMapper {
 
@@ -21,13 +21,13 @@ public interface PmsAttrMapper {
 
     int insertSelective(PmsAttr record);
 
-    PmsAttr selectByPrimaryKey(@Param("id") Long id, @Param("page") Integer page,@Param("size") Integer size,@Param("key") String key);
+    PmsAttr selectByPrimaryKey(@Param("id") Long id, @Param("page") Integer page, @Param("size") Integer size, @Param("key") String key, @Param("type") Integer type);
 
     int updateByPrimaryKeySelective(PmsAttr record);
 
     int updateByPrimaryKey(PmsAttr record);
 
-    List<PmsAttr> seleAll(@Param("page") Integer page,@Param("size") Integer size,@Param("key") String key);
+    List<PmsAttr> seleAll(@Param("page") Integer page, @Param("size") Integer size, @Param("key") String key, @Param("attrType") Integer attrType);
 
     int getCount();
 }

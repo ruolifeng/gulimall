@@ -13,10 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author: sunjianrong
@@ -50,7 +47,7 @@ public class PmsAttrServiceImpl implements PmsAttrService {
     }
 
     @Override
-    public PageUtils<AttrVo> getInfo(Integer catId, Map<String, Object> pms) {
+    public PageUtils<AttrVo> getInfo(Integer catId, Map<String, Object> pms, String attrType) {
         PageUtils<AttrVo> pageUtils = new PageUtils<>();
         Integer page = null;
         Integer size = null;
@@ -63,10 +60,11 @@ public class PmsAttrServiceImpl implements PmsAttrService {
             key = (String) pms.get("key");
         List<PmsAttr> attr = null;
         List<AttrVo> attrVos = new ArrayList<>();
+        // TODO 不管分类id是不是0都是查询所有，所以这里有错误
         if (catId == 0) {
-            attr = pmsAttrMapper.seleAll(page, size, key);
+            attr = pmsAttrMapper.seleAll(page, size, key, Objects.equals(attrType, "base") ? 1 : 0);
         } else {
-            PmsAttr pms2 = pmsAttrMapper.selectByPrimaryKey(Long.valueOf(catId), page, size, key);
+            PmsAttr pms2 = pmsAttrMapper.selectByPrimaryKey(Long.valueOf(catId), page, size, key, Objects.equals(attrType, "base") ? 1 : 0);
             attr = new ArrayList<>();
             attr.add(pms2);
         }
@@ -95,7 +93,7 @@ public class PmsAttrServiceImpl implements PmsAttrService {
     public AttrRespVo getOneInfo(Long id) {
         AttrRespVo vo = new AttrRespVo();
         // 获取基本属性信息
-        PmsAttr pmsAttr = pmsAttrMapper.selectByPrimaryKey(id, null, null, null);
+        PmsAttr pmsAttr = pmsAttrMapper.selectByPrimaryKey(id, null, null, null,null);
         // 获取分类信息
         if (pmsAttr.getCatelogId() != null) {
             PmsCategory pmsCategory = pmsCategoryMapper.selectByPrimaryKey(pmsAttr.getCatelogId());
@@ -131,7 +129,7 @@ public class PmsAttrServiceImpl implements PmsAttrService {
     public void delete(Long[] ids) {
         // TODO当属性表和属性关系表中的字段数量不一致的时候可能会出现bug
         Arrays.stream(ids).distinct().forEach((x) -> {
-            PmsAttr pmsAttr = pmsAttrMapper.selectByPrimaryKey(x, null, null, null);
+            PmsAttr pmsAttr = pmsAttrMapper.selectByPrimaryKey(x, null, null, null,null);
             pmsAttrAttrgroupRelationMapper.deleteByPrimaryKey(x);
             pmsAttrMapper.deleteByPrimaryKey(x);
 
