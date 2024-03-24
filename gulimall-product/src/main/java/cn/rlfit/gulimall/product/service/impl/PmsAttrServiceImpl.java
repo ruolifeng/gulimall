@@ -127,7 +127,7 @@ public class PmsAttrServiceImpl implements PmsAttrService {
     @Transactional
     @Override
     public void delete(Long[] ids) {
-        // TODO当属性表和属性关系表中的字段数量不一致的时候可能会出现bug
+        // TODO当属性表和属性关系表中的字段数量不一致的时候可能会出现bug。
         Arrays.stream(ids).distinct().forEach((x) -> {
             PmsAttr pmsAttr = pmsAttrMapper.selectByPrimaryKey(x, null, null, null,null);
             pmsAttrAttrgroupRelationMapper.deleteByPrimaryKey(x);
