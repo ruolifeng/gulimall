@@ -52,6 +52,7 @@ public class PmsAttrServiceImpl implements PmsAttrService {
         Integer page = null;
         Integer size = null;
         String key = null;
+        Integer attrTypeInteger = attrType.equals("base") ? 1 : 0;
         if (pms.get("page") != null)
             page = Integer.parseInt((String) pms.get("page"));
         if (pms.get("limit") != null)
@@ -60,11 +61,12 @@ public class PmsAttrServiceImpl implements PmsAttrService {
             key = (String) pms.get("key");
         List<PmsAttr> attr = null;
         List<AttrVo> attrVos = new ArrayList<>();
-        // TODO 不管分类id是不是0都是查询所有，所以这里有错误
+        // TODO 不管分类id是不是0都是查询所有，但是这里只在分类id是0的时候进行查询，所以这里有错误
         if (catId == 0) {
-            attr = pmsAttrMapper.seleAll(page, size, key, Objects.equals(attrType, "base") ? 1 : 0);
+            attr = pmsAttrMapper.seleAll(page, size, key, attrTypeInteger);
+            System.out.println(attr);
         } else {
-            PmsAttr pms2 = pmsAttrMapper.selectByPrimaryKey(Long.valueOf(catId), page, size, key, Objects.equals(attrType, "base") ? 1 : 0);
+            PmsAttr pms2 = pmsAttrMapper.selectByPrimaryKey(Long.valueOf(catId), page, size, key, attrTypeInteger);
             attr = new ArrayList<>();
             attr.add(pms2);
         }
@@ -93,7 +95,7 @@ public class PmsAttrServiceImpl implements PmsAttrService {
     public AttrRespVo getOneInfo(Long id) {
         AttrRespVo vo = new AttrRespVo();
         // 获取基本属性信息
-        PmsAttr pmsAttr = pmsAttrMapper.selectByPrimaryKey(id, null, null, null,null);
+        PmsAttr pmsAttr = pmsAttrMapper.selectByPrimaryKey(id, null, null, null, null);
         // 获取分类信息
         if (pmsAttr.getCatelogId() != null) {
             PmsCategory pmsCategory = pmsCategoryMapper.selectByPrimaryKey(pmsAttr.getCatelogId());
@@ -129,7 +131,7 @@ public class PmsAttrServiceImpl implements PmsAttrService {
     public void delete(Long[] ids) {
         // TODO当属性表和属性关系表中的字段数量不一致的时候可能会出现bug。
         Arrays.stream(ids).distinct().forEach((x) -> {
-            PmsAttr pmsAttr = pmsAttrMapper.selectByPrimaryKey(x, null, null, null,null);
+            PmsAttr pmsAttr = pmsAttrMapper.selectByPrimaryKey(x, null, null, null, null);
             pmsAttrAttrgroupRelationMapper.deleteByPrimaryKey(x);
             pmsAttrMapper.deleteByPrimaryKey(x);
 
