@@ -199,8 +199,8 @@ public class PmsAttrServiceImpl implements PmsAttrService {
         List<PmsAttr> pmsAttr = pmsAttrMapper.selectAllNotRelation(ids, catelogId, page, size, key);
         Integer count = pmsAttrMapper.selectCount(catelogId);
         PageUtils<PmsAttr> pageUtils = new PageUtils<>();
-        pageUtils.setData(pmsAttr);
-        pageUtils.setTotalPage(count / size);
+        if (size != null)
+            pageUtils.setTotalPage(count / size);
         pageUtils.setPageSize(size);
         pageUtils.setCurrentPage(page);
         pageUtils.setTotalCount(count);
