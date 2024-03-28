@@ -36,15 +36,12 @@
         <where>
             <if test="id != null">
                 attr_id = #{id,jdbcType=BIGINT}
-                  and
-            </if>
-
-            <if test="key != null and key != ''">
-                attr_name = #{key}
-                  and
             </if>
             <if test="type != null">
-                attr_type = #{type,jdbcType=INTEGER}
+              and  attr_type = #{type,jdbcType=INTEGER}
+            </if>
+            <if test="key != null and key != ''">
+               and attr_name = #{key}
             </if>
         </where>
         <if test="size != null and size != '' and page != null and page != ''">
@@ -189,12 +186,11 @@
         </include>
         from pms_attr
         <where>
-            <if test="key != null">
-                attr_name = #{key}
-                  and
-            </if>
             <if test="attrType != null">
                 attr_type = #{attrType,jdbcType=INTEGER}
+            </if>
+            <if test="key != null and key != ''">
+               and attr_name = #{key}
             </if>
         </where>
         <if test="size != null and size != '' and page != null and page != ''">
