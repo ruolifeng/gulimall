@@ -6,6 +6,7 @@ import cn.rlfit.gulimall.product.domain.PmsAttrGroup;
 import cn.rlfit.gulimall.product.service.PmsAttrGroupService;
 import cn.rlfit.gulimall.product.service.PmsAttrService;
 import cn.rlfit.gulimall.product.service.PmsCategoryService;
+import cn.rlfit.gulimall.product.vo.AttrRespVo;
 import cn.rlfit.gulimall.utils.resp.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -78,5 +79,22 @@ public class PmsAttrGroupController {
     public R getAttrRelation(@PathVariable Long attrGroup) {
         List<PmsAttr> pmsAttrs = pmsAttrService.getRelationAttr(attrGroup);
         return R.ok().put("data", pmsAttrs);
+    }
+    @PostMapping("/attr/relation/delete")
+    public R deleteRelation(@RequestBody AttrRespVo[] attrRespVos) {
+        pmsAttrService.deleteRelation(attrRespVos);
+        return R.ok();
+    }
+
+    /**
+     * 获取分组未关联的属性信息
+     * @param attrGroup
+     * @param pms
+     * @return
+     */
+    @GetMapping("/{attrGroup}/noattr/relation")
+    public R getNoRelationAttr(@PathVariable Long attrGroup,@RequestParam Map<String, Object> pms) {
+        PageUtils<PmsAttr> page =  pmsAttrService.getNoRelationAttr(attrGroup,pms);
+        return R.ok().put("data", page);
     }
 }

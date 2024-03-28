@@ -201,4 +201,32 @@
         select count(*)
         from pms_attr;
     </select>
+    <select id="selectAllNotRelation" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List">
+        </include>
+        from pms_attr
+        <where>
+            <if test="ids != null and ids.size() != 0">
+                pms_attr.catelog_id not in
+                <foreach collection="ids" open="(" close=")" item="value">
+                    #{value,jdbcType=BIGINT}
+                </foreach>
+            </if>
+            <if test="attrGroupId != null and attrGroupId != ''">
+                and catelog_id = #{attrGroupId,jdbcType=BIGINT}
+            </if>
+            <if test="key != null and key != ''">
+                and attr_id = #{key,jdbcType=VARCHAR}
+            </if>
+        </where>
+        <if test="page != null and page != '' and size != null and size != ''">
+            limit ${page-1},${size}
+        </if>
+    </select>
+    <select id="selectCount" resultType="int">
+        select count(*)
+        from pms_attr
+        where catelog_id = #{attrGroupId,jdbcType=BIGINT}
+    </select>
 </mapper>

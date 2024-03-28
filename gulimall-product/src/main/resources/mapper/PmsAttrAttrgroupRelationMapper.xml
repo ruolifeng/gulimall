@@ -87,4 +87,8 @@
             </if>
         </where>
     </select>
+    <delete id="deleteRelation" parameterType="cn.rlfit.gulimall.product.domain.PmsAttrAttrgroupRelation">
+        delete from pms_attr_attrgroup_relation
+        where attr_id = #{attrId,jdbcType=BIGINT} and attr_group_id = #{attrGroupId,jdbcType=BIGINT}
+    </delete>
 </mapper>

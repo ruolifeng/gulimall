@@ -25,4 +25,8 @@ public interface PmsAttrService {
     void delete(Long[] ids);
 
     List<PmsAttr> getRelationAttr(Long attrGroup);
+
+    void deleteRelation(AttrRespVo[] attrRespVos);
+
+    PageUtils<PmsAttr> getNoRelationAttr(Long attrGroup, Map<String, Object> pms);
 }

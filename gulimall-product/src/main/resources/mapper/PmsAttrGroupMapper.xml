@@ -144,4 +144,15 @@
         from pms_attr_group
         where attr_group_id = #{id,jdbcType=BIGINT}
     </select>
+    <select id="selectByCatelogId" parameterType="_long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List">
+        </include>
+        from pms_attr_group
+        <where>
+            <if test="catelongId != null and catelongId != ''">
+                catelog_id = #{catelongId,jdbcType=BIGINT}
+            </if>
+        </where>
+    </select>
 </mapper>

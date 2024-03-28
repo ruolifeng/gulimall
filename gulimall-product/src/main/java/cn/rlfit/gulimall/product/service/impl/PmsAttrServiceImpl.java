@@ -76,13 +76,15 @@ public class PmsAttrServiceImpl implements PmsAttrService {
             BeanUtils.copyProperties(x, vo);
             String name = pmsCategoryMapper.selectByPrimaryKey(x.getCatelogId()).getName();
             vo.setCatelogName(name);
-            if (pmsAttrAttrgroupRelationMapper.selectByPrimaryKey(x.getAttrId()).getAttrGroupId() != null) {
+            if (x.getAttrId() != null) {
+                if (pmsAttrAttrgroupRelationMapper.selectByPrimaryKey(x.getAttrId()).getAttrGroupId() != null) {
 
-                PmsAttrGroup pmsAttrGroup = pmsAttrGroupMapper.selectByPrimaryKey(pmsAttrAttrgroupRelationMapper.selectByPrimaryKey(x.getAttrId()).getAttrGroupId());
-                String attrGroupName = pmsAttrGroup.getAttrGroupName();
-                vo.setGroupName(attrGroupName);
+                    PmsAttrGroup pmsAttrGroup = pmsAttrGroupMapper.selectByPrimaryKey(pmsAttrAttrgroupRelationMapper.selectByPrimaryKey(x.getAttrId()).getAttrGroupId());
+                    String attrGroupName = pmsAttrGroup.getAttrGroupName();
+                    vo.setGroupName(attrGroupName);
+                }
+                attrVos.add(vo);
             }
-            attrVos.add(vo);
         });
         int count = pmsAttrMapper.getCount();
         pageUtils.setData(attrVos);
@@ -147,5 +149,62 @@ public class PmsAttrServiceImpl implements PmsAttrService {
         List<Long> list = relations.stream().map(PmsAttrAttrgroupRelation::getAttrId).distinct().toList();
         // 根据属性id查询出属性信息，将所有属性信息收集起来返回
         return list.stream().map(x -> pmsAttrMapper.selectByPrimaryKey(x, null, null, null, null)).toList();
+    }
+
+    /**
+     * 删除属性书和属性分组的关联关系
+     * @param attrRespVos
+     */
+    @Override
+    public void deleteRelation(AttrRespVo[] attrRespVos) {
+        Arrays.stream(attrRespVos).distinct().forEach(x -> {
+            PmsAttrAttrgroupRelation pmsAttrAttrgroupRelation = new PmsAttrAttrgroupRelation();
+            pmsAttrAttrgroupRelation.setAttrId(x.getAttrId());
+            pmsAttrAttrgroupRelation.setAttrGroupId(x.getAttrGroupId());
+            pmsAttrAttrgroupRelationMapper.deleteRelation(pmsAttrAttrgroupRelation);
+        });
+    }
+
+    /**
+     * 获取没有关联分组的属性
+     * @param attrGroup
+     * @param pms
+     * @return
+     */
+    @Override
+    public PageUtils<PmsAttr> getNoRelationAttr(Long attrGroup, Map<String, Object> pms) {
+        // 当前分组只能关联属于自己分类下面的属性
+        PmsAttrGroup pmsAttrGroup = pmsAttrGroupMapper.selectByPrimaryKey(attrGroup);
+        Long catelogId = pmsAttrGroup.getCatelogId();
+        // 当前分组只能关联别的分组没有引用的属性
+        // 找到当前分类下面的所有分组
+        List<PmsAttrGroup> pmsAttrGroups = pmsAttrGroupMapper.selectByCatelogId(catelogId);
+        // 查询出这些分组已经关联的属性
+        List<Long> ids = new ArrayList<>();
+        pmsAttrGroups.stream().map(PmsAttrGroup::getAttrGroupId).distinct().forEach(x -> {
+            List<PmsAttrAttrgroupRelation> relations = pmsAttrAttrgroupRelationMapper.selectAllInfoByAttrId(x);
+            relations.stream().distinct().forEach(y -> {
+                ids.add(y.getId());
+            });
+        });
+        Integer page = null;
+        Integer size = null;
+        String key = null;
+        if (pms.get("page") != null)
+            page = Integer.parseInt((String) pms.get("page"));
+        if (pms.get("limit") != null)
+            size = Integer.parseInt((String) pms.get("limit"));
+        if (pms.get("key") != null)
+            key = (String) pms.get("key");
+        // 查询出没有被关联的属性，而且是分页查询
+        List<PmsAttr> pmsAttr = pmsAttrMapper.selectAllNotRelation(ids, catelogId, page, size, key);
+        Integer count = pmsAttrMapper.selectCount(catelogId);
+        PageUtils<PmsAttr> pageUtils = new PageUtils<>();
+        pageUtils.setData(pmsAttr);
+        pageUtils.setTotalPage(count / size);
+        pageUtils.setPageSize(size);
+        pageUtils.setCurrentPage(page);
+        pageUtils.setTotalCount(count);
+        return pageUtils;
     }
 }
