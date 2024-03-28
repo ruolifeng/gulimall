@@ -73,4 +73,6 @@ public class PmsAttrController {
         pmsAttrService.delete(ids);
         return R.ok();
     }
+
+
 }

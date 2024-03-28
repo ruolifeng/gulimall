@@ -1,13 +1,17 @@
 package cn.rlfit.gulimall.product.controller;
 
 import cn.rlfit.gulimall.product.domain.PageUtils;
+import cn.rlfit.gulimall.product.domain.PmsAttr;
 import cn.rlfit.gulimall.product.domain.PmsAttrGroup;
 import cn.rlfit.gulimall.product.service.PmsAttrGroupService;
+import cn.rlfit.gulimall.product.service.PmsAttrService;
 import cn.rlfit.gulimall.product.service.PmsCategoryService;
 import cn.rlfit.gulimall.utils.resp.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -23,6 +27,9 @@ public class PmsAttrGroupController {
 
     @Autowired
     private PmsCategoryService pmsCategoryService;
+
+    @Resource
+    private PmsAttrService pmsAttrService;
 
     @RequestMapping("/list/{catalogId}")
     public R list(@RequestParam Map<String, Object> pms, @PathVariable Long catalogId){
@@ -60,5 +67,16 @@ public class PmsAttrGroupController {
     public R update(@RequestBody PmsAttrGroup pmsAttrGroup){
         attrGroupService.update(pmsAttrGroup);
         return R.ok();
+    }
+
+    /**
+     * 获取分组关联的所有属性信息
+     * @param attrGroup
+     * @return
+     */
+    @GetMapping("/{attrGroup}/attr/relation")
+    public R getAttrRelation(@PathVariable Long attrGroup) {
+        List<PmsAttr> pmsAttrs = pmsAttrService.getRelationAttr(attrGroup);
+        return R.ok().put("data", pmsAttrs);
     }
 }

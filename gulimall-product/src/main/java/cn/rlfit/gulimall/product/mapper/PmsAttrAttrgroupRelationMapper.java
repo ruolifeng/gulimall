@@ -2,6 +2,9 @@ package cn.rlfit.gulimall.product.mapper;
 
 import cn.rlfit.gulimall.product.domain.PmsAttrAttrgroupRelation;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
 * @author 18777
@@ -25,4 +28,6 @@ public interface PmsAttrAttrgroupRelationMapper {
     int updateByPrimaryKey(PmsAttrAttrgroupRelation record);
 
     void updateByAttrId(Long attrId,Long getAttrGroupId);
+
+    List<PmsAttrAttrgroupRelation> selectAllInfoByAttrId(@Param("attrGroup") Long attrGroup);
 }

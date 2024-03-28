@@ -138,4 +138,14 @@ public class PmsAttrServiceImpl implements PmsAttrService {
 
         });
     }
+
+    @Override
+    public List<PmsAttr> getRelationAttr(Long attrGroup) {
+        // 从属性分组关系表中查询出所有的分组对应的属性id，存在分组id为0的情况就是当前属性并没有设置给任何一个分组，所以在查询的时候需要先判断一下
+        List<PmsAttrAttrgroupRelation> relations = pmsAttrAttrgroupRelationMapper.selectAllInfoByAttrId(attrGroup);
+        // 将属性id收集起来
+        List<Long> list = relations.stream().map(PmsAttrAttrgroupRelation::getAttrId).distinct().toList();
+        // 根据属性id查询出属性信息，将所有属性信息收集起来返回
+        return list.stream().map(x -> pmsAttrMapper.selectByPrimaryKey(x, null, null, null, null)).toList();
+    }
 }

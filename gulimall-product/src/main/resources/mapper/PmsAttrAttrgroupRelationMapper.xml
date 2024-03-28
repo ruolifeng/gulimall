@@ -77,4 +77,14 @@
         set gulimall_pms.pms_attr_attrgroup_relation.attr_group_id = #{param2,jdbcType=BIGINT}
         where id = #{param1,jdbcType=BIGINT}
     </update>
+    <select id="selectAllInfoByAttrId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from pms_attr_attrgroup_relation
+        <where>
+            <if test="attrGroup !=null and attrGroup != ''">
+                attr_group_id = #{attrGroup,jdbcType=BIGINT}
+            </if>
+        </where>
+    </select>
 </mapper>
