@@ -54,6 +54,7 @@ public class PmsAttrServiceImpl implements PmsAttrService {
         Integer size = null;
         String key = null;
         Integer attrTypeInteger = attrType.equals("base") ? AttrEnum.ATTR_TYPE_BASE.getCode() : AttrEnum.ATTR_TYPE_SALE.getCode();
+        System.out.println(attrTypeInteger);
         if (pms.get("page") != null)
             page = Integer.parseInt((String) pms.get("page"));
         if (pms.get("limit") != null)
@@ -77,11 +78,13 @@ public class PmsAttrServiceImpl implements PmsAttrService {
             String name = pmsCategoryMapper.selectByPrimaryKey(x.getCatelogId()).getName();
             vo.setCatelogName(name);
             if (x.getAttrId() != null) {
-                if (pmsAttrAttrgroupRelationMapper.selectByPrimaryKey(x.getAttrId()).getAttrGroupId() != null) {
+                if (pmsAttrAttrgroupRelationMapper.selectByPrimaryKey(x.getAttrId()) != null) {
+                    if ((pmsAttrAttrgroupRelationMapper.selectByPrimaryKey(x.getAttrId()).getAttrGroupId()) != null) {
 
-                    PmsAttrGroup pmsAttrGroup = pmsAttrGroupMapper.selectByPrimaryKey(pmsAttrAttrgroupRelationMapper.selectByPrimaryKey(x.getAttrId()).getAttrGroupId());
-                    String attrGroupName = pmsAttrGroup.getAttrGroupName();
-                    vo.setGroupName(attrGroupName);
+                        PmsAttrGroup pmsAttrGroup = pmsAttrGroupMapper.selectByPrimaryKey(pmsAttrAttrgroupRelationMapper.selectByPrimaryKey(x.getAttrId()).getAttrGroupId());
+                        String attrGroupName = pmsAttrGroup.getAttrGroupName();
+                        vo.setGroupName(attrGroupName);
+                    }
                 }
                 attrVos.add(vo);
             }
