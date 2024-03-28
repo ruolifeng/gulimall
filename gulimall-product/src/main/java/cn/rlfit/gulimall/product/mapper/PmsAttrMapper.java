@@ -27,7 +27,7 @@ public interface PmsAttrMapper {
 
     int updateByPrimaryKey(PmsAttr record);
 
-    List<PmsAttr> seleAll(@Param("page") Integer page, @Param("size") Integer size, @Param("key") String key, @Param("attrType") Integer attrType);
+    List<PmsAttr> seleAll(@Param("cateId") Long id, @Param("page") Integer page, @Param("size") Integer size, @Param("key") String key, @Param("attrType") Integer attrType);
 
     int getCount();
 

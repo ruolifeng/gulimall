@@ -192,6 +192,9 @@
             <if test="key != null and key != ''">
                and attr_name = #{key}
             </if>
+            <if test="cateId != null and cateId != ''">
+                and catelog_id = #{cateId,jdbcType=BIGINT}
+            </if>
         </where>
         <if test="size != null and size != '' and page != null and page != ''">
             limit ${page - 1},${size}

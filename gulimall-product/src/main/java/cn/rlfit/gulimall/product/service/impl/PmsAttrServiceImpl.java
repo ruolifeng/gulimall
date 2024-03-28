@@ -63,14 +63,7 @@ public class PmsAttrServiceImpl implements PmsAttrService {
             key = (String) pms.get("key");
         List<PmsAttr> attr = null;
         List<AttrVo> attrVos = new ArrayList<>();
-        // TODO 不管分类id是不是0都是查询所有，但是这里只在分类id是0的时候进行查询，所以这里有错误
-        if (catId == 0) {
-            attr = pmsAttrMapper.seleAll(page, size, key, attrTypeInteger);
-        } else {
-            PmsAttr pms2 = pmsAttrMapper.selectByPrimaryKey(Long.valueOf(catId), page, size, key, attrTypeInteger);
-            attr = new ArrayList<>();
-            attr.add(pms2);
-        }
+        attr = pmsAttrMapper.seleAll(Long.valueOf(catId), page, size, key, attrTypeInteger);
         attr.forEach(x -> {
             AttrRespVo vo = new AttrRespVo();
             BeanUtils.copyProperties(x, vo);
