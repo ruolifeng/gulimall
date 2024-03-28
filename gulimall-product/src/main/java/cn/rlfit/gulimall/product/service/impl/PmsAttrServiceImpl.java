@@ -66,7 +66,6 @@ public class PmsAttrServiceImpl implements PmsAttrService {
         // TODO 不管分类id是不是0都是查询所有，但是这里只在分类id是0的时候进行查询，所以这里有错误
         if (catId == 0) {
             attr = pmsAttrMapper.seleAll(page, size, key, attrTypeInteger);
-            System.out.println(attr);
         } else {
             PmsAttr pms2 = pmsAttrMapper.selectByPrimaryKey(Long.valueOf(catId), page, size, key, attrTypeInteger);
             attr = new ArrayList<>();
@@ -77,17 +76,12 @@ public class PmsAttrServiceImpl implements PmsAttrService {
             BeanUtils.copyProperties(x, vo);
             String name = pmsCategoryMapper.selectByPrimaryKey(x.getCatelogId()).getName();
             vo.setCatelogName(name);
-            if (x.getAttrId() != null) {
-                if (pmsAttrAttrgroupRelationMapper.selectByPrimaryKey(x.getAttrId()) != null) {
-                    if ((pmsAttrAttrgroupRelationMapper.selectByPrimaryKey(x.getAttrId()).getAttrGroupId()) != null) {
-
-                        PmsAttrGroup pmsAttrGroup = pmsAttrGroupMapper.selectByPrimaryKey(pmsAttrAttrgroupRelationMapper.selectByPrimaryKey(x.getAttrId()).getAttrGroupId());
-                        String attrGroupName = pmsAttrGroup.getAttrGroupName();
-                        vo.setGroupName(attrGroupName);
-                    }
-                }
-                attrVos.add(vo);
-            }
+            List<PmsAttrAttrgroupRelation> relations = pmsAttrAttrgroupRelationMapper.selectAllInfoByAttrId(x.getAttrId());
+            relations.stream().distinct().forEach(y -> {
+                PmsAttrGroup pmsAttrGroup = pmsAttrGroupMapper.selectByPrimaryKey(y.getAttrGroupId());
+                vo.setGroupName(pmsAttrGroup.getAttrGroupName());
+            });
+            attrVos.add(vo);
         });
         int count = pmsAttrMapper.getCount();
         pageUtils.setData(attrVos);
@@ -110,7 +104,7 @@ public class PmsAttrServiceImpl implements PmsAttrService {
             }
         }
         // 获取分组信息
-        if (pmsAttrAttrgroupRelationMapper.selectByPrimaryKey(pmsAttr.getAttrId()) != null){
+        if (pmsAttrAttrgroupRelationMapper.selectByPrimaryKey(pmsAttr.getAttrId()) != null) {
             if ((pmsAttrAttrgroupRelationMapper.selectByPrimaryKey(pmsAttr.getAttrId()).getAttrGroupId()) != null) {
 
                 PmsAttrGroup pmsAttrGroup = pmsAttrGroupMapper.selectByPrimaryKey(pmsAttrAttrgroupRelationMapper.selectByPrimaryKey(pmsAttr.getAttrId()).getAttrGroupId());
