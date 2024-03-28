@@ -34,5 +34,5 @@ public interface PmsAttrMapper {
 
     List<PmsAttr> selectAllNotRelation(@Param("ids") List<Long> id, @Param("attrGroupId") Long attrGroupId, @Param("page") Integer page, @Param("size") Integer size, @Param("key") String key);
 
-    Integer selectCount(Long attrGroupId);
+    Integer selectCount(@Param("attrGroupId") Long attrGroupId);
 }
