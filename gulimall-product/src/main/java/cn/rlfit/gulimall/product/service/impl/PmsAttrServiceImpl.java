@@ -1,5 +1,6 @@
 package cn.rlfit.gulimall.product.service.impl;
 
+import cn.rlfit.gulimall.constant.AttrEnum;
 import cn.rlfit.gulimall.product.domain.*;
 import cn.rlfit.gulimall.product.mapper.PmsAttrAttrgroupRelationMapper;
 import cn.rlfit.gulimall.product.mapper.PmsAttrGroupMapper;
@@ -52,7 +53,7 @@ public class PmsAttrServiceImpl implements PmsAttrService {
         Integer page = null;
         Integer size = null;
         String key = null;
-        Integer attrTypeInteger = attrType.equals("base") ? 1 : 0;
+        Integer attrTypeInteger = attrType.equals("base") ? AttrEnum.ATTR_TYPE_BASE.getCode() : AttrEnum.ATTR_TYPE_SALE.getCode();
         if (pms.get("page") != null)
             page = Integer.parseInt((String) pms.get("page"));
         if (pms.get("limit") != null)
