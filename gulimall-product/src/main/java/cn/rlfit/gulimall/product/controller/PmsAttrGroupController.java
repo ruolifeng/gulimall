@@ -4,8 +4,10 @@ import cn.rlfit.gulimall.product.domain.PageUtils;
 import cn.rlfit.gulimall.product.domain.PmsAttr;
 import cn.rlfit.gulimall.product.domain.PmsAttrGroup;
 import cn.rlfit.gulimall.product.service.PmsAttrGroupService;
+import cn.rlfit.gulimall.product.service.PmsAttrRelationService;
 import cn.rlfit.gulimall.product.service.PmsAttrService;
 import cn.rlfit.gulimall.product.service.PmsCategoryService;
+import cn.rlfit.gulimall.product.vo.AttrGroupRelationVo;
 import cn.rlfit.gulimall.product.vo.AttrRespVo;
 import cn.rlfit.gulimall.utils.resp.R;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +33,10 @@ public class PmsAttrGroupController {
 
     @Resource
     private PmsAttrService pmsAttrService;
+
+
+    @Resource
+    PmsAttrRelationService pmsAttrRelationService;
 
     @RequestMapping("/list/{catalogId}")
     public R list(@RequestParam Map<String, Object> pms, @PathVariable Long catalogId){
@@ -96,5 +102,11 @@ public class PmsAttrGroupController {
     public R getNoRelationAttr(@PathVariable Long attrGroup,@RequestParam Map<String, Object> pms) {
         PageUtils<PmsAttr> page =  pmsAttrService.getNoRelationAttr(attrGroup,pms);
         return R.ok().put("data", page);
+    }
+
+    @PostMapping("/attr/relation")
+    public R addRelation(@RequestBody List<AttrGroupRelationVo> vo){
+        pmsAttrRelationService.addRelation(vo);
+        return R.ok();
     }
 }

@@ -187,7 +187,7 @@ public class PmsAttrServiceImpl implements PmsAttrService {
         pmsAttrGroups.stream().map(PmsAttrGroup::getAttrGroupId).distinct().forEach(x -> {
             List<PmsAttrAttrgroupRelation> relations = pmsAttrAttrgroupRelationMapper.selectAllInfoByAttrId(x);
             relations.stream().distinct().forEach(y -> {
-                ids.add(y.getId());
+                ids.add(y.getAttrId());
             });
         });
         Integer page = null;
