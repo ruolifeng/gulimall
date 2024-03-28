@@ -110,11 +110,13 @@ public class PmsAttrServiceImpl implements PmsAttrService {
             }
         }
         // 获取分组信息
-        if (pmsAttrAttrgroupRelationMapper.selectByPrimaryKey(pmsAttr.getAttrId()).getAttrGroupId() != null) {
+        if (pmsAttrAttrgroupRelationMapper.selectByPrimaryKey(pmsAttr.getAttrId()) != null){
+            if ((pmsAttrAttrgroupRelationMapper.selectByPrimaryKey(pmsAttr.getAttrId()).getAttrGroupId()) != null) {
 
-            PmsAttrGroup pmsAttrGroup = pmsAttrGroupMapper.selectByPrimaryKey(pmsAttrAttrgroupRelationMapper.selectByPrimaryKey(pmsAttr.getAttrId()).getAttrGroupId());
-            if (pmsAttrGroup.getAttrGroupName() != null)
-                vo.setGroupName(pmsAttrGroup.getAttrGroupName());
+                PmsAttrGroup pmsAttrGroup = pmsAttrGroupMapper.selectByPrimaryKey(pmsAttrAttrgroupRelationMapper.selectByPrimaryKey(pmsAttr.getAttrId()).getAttrGroupId());
+                if (pmsAttrGroup.getAttrGroupName() != null)
+                    vo.setGroupName(pmsAttrGroup.getAttrGroupName());
+            }
         }
         //组合
         BeanUtils.copyProperties(pmsAttr, vo);
