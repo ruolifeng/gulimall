@@ -1,13 +1,12 @@
 package cn.rlfit.gulimallmember.service.impl;
 
-import org.springframework.stereotype.Service;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
 import cn.rlfit.gulimallmember.domain.UmsMemberCollectSpu;
-import java.util.List;
 import cn.rlfit.gulimallmember.mapper.UmsMemberCollectSpuMapper;
 import cn.rlfit.gulimallmember.service.UmsMemberCollectSpuService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 /**
  * @author: sunjianrong
  * @email: sunruolifeng@gmail.com

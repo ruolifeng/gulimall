@@ -1,9 +1,10 @@
 package cn.rlfit.gulimallmember.mapper;
 
 import cn.rlfit.gulimallmember.domain.UmsMember;
-import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * @author: sunjianrong
@@ -25,4 +26,8 @@ public interface UmsMemberMapper {
     int updateByPrimaryKey(UmsMember record);
 
     int batchInsert(@Param("list") List<UmsMember> list);
+
+    List<UmsMember> selectAllOfPage(@Param("page") Integer page, @Param("size") Integer size, @Param("key") String key);
+
+    Integer seleCount();
 }

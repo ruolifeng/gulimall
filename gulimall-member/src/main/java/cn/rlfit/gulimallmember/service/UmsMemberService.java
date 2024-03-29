@@ -1,13 +1,17 @@
 package cn.rlfit.gulimallmember.service;
 
-import java.util.List;
+import cn.rlfit.gulimall.utils.resp.Page;
 import cn.rlfit.gulimallmember.domain.UmsMember;
-    /**
+
+import java.util.List;
+import java.util.Map;
+
+/**
  * @author: sunjianrong
  * @email: sunruolifeng@gmail.com
  * @date: 29/03/2024 1:52 PM
  */
-public interface UmsMemberService{
+public interface UmsMemberService {
 
     int deleteByPrimaryKey(Long id);
 
@@ -23,4 +27,5 @@ public interface UmsMemberService{
 
     int batchInsert(List<UmsMember> list);
 
+    Page<List<UmsMember>> selectAllOfPage(Map<String, Object> pms);
 }

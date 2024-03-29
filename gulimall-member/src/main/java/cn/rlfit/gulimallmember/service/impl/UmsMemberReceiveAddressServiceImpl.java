@@ -1,13 +1,12 @@
 package cn.rlfit.gulimallmember.service.impl;
 
+import cn.rlfit.gulimallmember.domain.UmsMemberReceiveAddress;
+import cn.rlfit.gulimallmember.mapper.UmsMemberReceiveAddressMapper;
+import cn.rlfit.gulimallmember.service.UmsMemberReceiveAddressService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import java.util.List;
-import cn.rlfit.gulimallmember.mapper.UmsMemberReceiveAddressMapper;
-import cn.rlfit.gulimallmember.domain.UmsMemberReceiveAddress;
-import cn.rlfit.gulimallmember.service.UmsMemberReceiveAddressService;
 /**
  * @author: sunjianrong
  * @email: sunruolifeng@gmail.com

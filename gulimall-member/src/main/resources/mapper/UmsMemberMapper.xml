@@ -280,4 +280,21 @@
              #{item.status,jdbcType=TINYINT}, #{item.createTime,jdbcType=TIMESTAMP})
         </foreach>
     </insert>
+    <select id="selectAllOfPage" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM ums_member
+        <where>
+            <if test="key != null and key != ''">
+                id = #{key,jdbcType=BIGINT}
+                   or username = #{key,jdbcType=VARCHAR}
+            </if>
+        </where>
+        <if test="page != null and page != ''">
+            limit ${page},${size}
+        </if>
+    </select>
+    <select id="seleCount" resultType="int">
+        select count(*) from ums_member
+    </select>
 </mapper>
