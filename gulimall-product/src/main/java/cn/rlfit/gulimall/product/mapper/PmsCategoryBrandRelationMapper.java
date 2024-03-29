@@ -30,4 +30,6 @@ public interface PmsCategoryBrandRelationMapper {
     List<PmsCategoryBrandRelation> getRelation(@Param("brandId") Long brandId);
 
     void updateRelationName(@Param("brandId") Long brandId, @Param("name") String name);
+
+    List<PmsCategoryBrandRelation> getBrandsByCatId(Long catId);
 }

@@ -6,12 +6,14 @@ import cn.rlfit.gulimall.product.domain.PmsCategoryBrandRelation;
 import cn.rlfit.gulimall.product.service.PmsBrandService;
 import cn.rlfit.gulimall.product.service.PmsCategoryBrandRelationService;
 import cn.rlfit.gulimall.product.service.PmsCategoryService;
+import cn.rlfit.gulimall.product.vo.BrandVo;
 import cn.rlfit.gulimall.utils.resp.R;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
 /**
@@ -55,5 +57,17 @@ public class PmsCategoryBrandRelationController {
     public R deleteById(@RequestBody Long[] ids){
         pmsCategoryBrandRelationservice.delete(ids);
         return R.ok();
+    }
+
+    @GetMapping("/brands/list")
+    public R relationBrandList(@RequestParam Long catId){
+        List<PmsBrand> brands = pmsCategoryBrandRelationservice.getBrandsByCatId(catId);
+        List<BrandVo> collect = brands.stream().map(item -> {
+            BrandVo brandVo = new BrandVo();
+            brandVo.setBrandId(item.getBrandId());
+            brandVo.setBrandName(item.getName());
+            return brandVo;
+        }).collect(Collectors.toList());
+        return R.ok().put("data", collect);
     }
 }

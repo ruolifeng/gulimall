@@ -1,5 +1,6 @@
 package cn.rlfit.gulimall.product.service;
 
+import cn.rlfit.gulimall.product.domain.PmsBrand;
 import cn.rlfit.gulimall.product.domain.PmsCategoryBrandRelation;
 
 import java.util.List;
@@ -16,4 +17,6 @@ public interface PmsCategoryBrandRelationService {
     void save(PmsCategoryBrandRelation relation);
 
     void delete(Long[] ids);
+
+    List<PmsBrand> getBrandsByCatId(Long catId);
 }
