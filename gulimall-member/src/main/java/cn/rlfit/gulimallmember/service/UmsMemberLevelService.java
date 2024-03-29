@@ -1,7 +1,10 @@
 package cn.rlfit.gulimallmember.service;
 
-import java.util.List;
+import cn.rlfit.gulimall.utils.resp.Page;
 import cn.rlfit.gulimallmember.domain.UmsMemberLevel;
+
+import java.util.List;
+import java.util.Map;
     /**
  * @author: sunjianrong
  * @email: sunruolifeng@gmail.com
@@ -23,4 +26,5 @@ public interface UmsMemberLevelService{
 
     int batchInsert(List<UmsMemberLevel> list);
 
-}
+        Page<List<UmsMemberLevel>> selectAllMemberLevel(Map<String, Object> pms);
+    }

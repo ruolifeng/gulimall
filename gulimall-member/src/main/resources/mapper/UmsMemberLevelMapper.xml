@@ -166,4 +166,21 @@
         #{item.priviledgeBirthday,jdbcType=TINYINT}, #{item.note,jdbcType=VARCHAR})
     </foreach>
   </insert>
+  <select id="selectAllMemberLevel" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List">
+    </include>
+    from ums_member_level
+    <where>
+      <if test="param3 != null and param3 != ''">
+        id = #{param3,jdbcType=VARCHAR}
+      </if>
+    </where>
+    <if test="param1 != null and param1 != ''">
+      limit ${param1},${param2}
+    </if>
+  </select>
+  <select id="seleCount" resultType="int">
+    select count(*) from ums_member_level
+  </select>
 </mapper>

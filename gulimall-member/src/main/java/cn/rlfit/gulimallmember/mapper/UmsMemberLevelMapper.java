@@ -1,9 +1,10 @@
 package cn.rlfit.gulimallmember.mapper;
 
 import cn.rlfit.gulimallmember.domain.UmsMemberLevel;
-import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * @author: sunjianrong
@@ -25,4 +26,8 @@ public interface UmsMemberLevelMapper {
     int updateByPrimaryKey(UmsMemberLevel record);
 
     int batchInsert(@Param("list") List<UmsMemberLevel> list);
+
+    List<UmsMemberLevel> selectAllMemberLevel(Integer page, Integer size, String key);
+
+    Integer seleCount();
 }

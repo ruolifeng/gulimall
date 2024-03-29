@@ -291,7 +291,7 @@
             </if>
         </where>
         <if test="page != null and page != ''">
-            limit ${page},${size}
+            limit ${page-1},${size}
         </if>
     </select>
     <select id="seleCount" resultType="int">

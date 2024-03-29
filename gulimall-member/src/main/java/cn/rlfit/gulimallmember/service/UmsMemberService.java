@@ -2,6 +2,7 @@ package cn.rlfit.gulimallmember.service;
 
 import cn.rlfit.gulimall.utils.resp.Page;
 import cn.rlfit.gulimallmember.domain.UmsMember;
+import cn.rlfit.gulimallmember.domain.UmsMemberLevel;
 
 import java.util.List;
 import java.util.Map;
