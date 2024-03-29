@@ -177,7 +177,7 @@
       </if>
     </where>
     <if test="param1 != null and param1 != ''">
-      limit ${param1},${param2}
+      limit ${param1-1},${param2}
     </if>
   </select>
   <select id="seleCount" resultType="int">

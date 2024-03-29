@@ -5,12 +5,13 @@ import cn.rlfit.gulimallmember.domain.UmsMemberLevel;
 
 import java.util.List;
 import java.util.Map;
-    /**
+
+/**
  * @author: sunjianrong
  * @email: sunruolifeng@gmail.com
  * @date: 29/03/2024 1:55 PM
  */
-public interface UmsMemberLevelService{
+public interface UmsMemberLevelService {
 
     int deleteByPrimaryKey(Long id);
 
@@ -26,5 +27,9 @@ public interface UmsMemberLevelService{
 
     int batchInsert(List<UmsMemberLevel> list);
 
-        Page<List<UmsMemberLevel>> selectAllMemberLevel(Map<String, Object> pms);
-    }
+    Page<List<UmsMemberLevel>> selectAllMemberLevel(Map<String, Object> pms);
+
+    void save(UmsMemberLevel umsMemberLevel);
+
+    void deleteBatch(long[] ids);
+}

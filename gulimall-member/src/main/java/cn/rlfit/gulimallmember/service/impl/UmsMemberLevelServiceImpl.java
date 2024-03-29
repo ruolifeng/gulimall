@@ -7,6 +7,7 @@ import cn.rlfit.gulimallmember.service.UmsMemberLevelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -77,6 +78,16 @@ public class UmsMemberLevelServiceImpl implements UmsMemberLevelService{
         if (!Objects.isNull(pms.get("limit")))
             data.setTotalPage(count / size);
         return data;
+    }
+
+    @Override
+    public void save(UmsMemberLevel umsMemberLevel) {
+        umsMemberLevelMapper.insertSelective(umsMemberLevel);
+    }
+
+    @Override
+    public void deleteBatch(long[] ids) {
+        Arrays.stream(ids).distinct().forEach(x->umsMemberLevelMapper.deleteByPrimaryKey(x));
     }
 
 }
