@@ -60,7 +60,7 @@ public class PmsCategoryBrandRelationController {
     }
 
     @GetMapping("/brands/list")
-    public R relationBrandList(@RequestParam Long catId){
+    public R relationBrandList(@RequestParam(value = "catId",required = true) Long catId){
         List<PmsBrand> brands = pmsCategoryBrandRelationservice.getBrandsByCatId(catId);
         List<BrandVo> collect = brands.stream().map(item -> {
             BrandVo brandVo = new BrandVo();

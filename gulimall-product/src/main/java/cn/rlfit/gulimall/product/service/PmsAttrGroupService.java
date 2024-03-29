@@ -2,7 +2,9 @@ package cn.rlfit.gulimall.product.service;
 
 import cn.rlfit.gulimall.product.domain.PageUtils;
 import cn.rlfit.gulimall.product.domain.PmsAttrGroup;
+import cn.rlfit.gulimall.product.vo.AttrGroupWithAttrsVo;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -20,4 +22,6 @@ public interface PmsAttrGroupService {
     PmsAttrGroup getInfo(Long id);
 
     void update(PmsAttrGroup pmsAttrGroup);
+
+    List<AttrGroupWithAttrsVo> getAttrGroupWithAttr(Long catelogId);
 }

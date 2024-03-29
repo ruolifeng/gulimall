@@ -34,4 +34,6 @@ public interface PmsAttrGroupMapper {
     PmsAttrGroup getInfo(Long id);
 
     List<PmsAttrGroup> selectByCatelogId(@Param("catelogId") Long catelogId);
+
+    List<PmsAttrGroup> seleAll(Long catelogId);
 }

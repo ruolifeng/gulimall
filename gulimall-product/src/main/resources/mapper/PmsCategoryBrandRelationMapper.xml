@@ -98,6 +98,8 @@
         <include refid="Base_Column_List">
         </include>
         from pms_category_brand_relation
-        where catelog_id = #{catId,jdbcType=BIGINT}
+        <if test="_parameter != null and _parameter != ''">
+            where catelog_id = #{catId,jdbcType=BIGINT}
+        </if>
     </select>
 </mapper>

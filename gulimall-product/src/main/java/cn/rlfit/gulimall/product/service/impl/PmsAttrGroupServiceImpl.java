@@ -1,15 +1,20 @@
 package cn.rlfit.gulimall.product.service.impl;
 
 import cn.rlfit.gulimall.product.domain.PageUtils;
+import cn.rlfit.gulimall.product.domain.PmsAttr;
 import cn.rlfit.gulimall.product.domain.PmsAttrGroup;
 import cn.rlfit.gulimall.product.mapper.PmsAttrGroupMapper;
 import cn.rlfit.gulimall.product.service.PmsAttrGroupService;
+import cn.rlfit.gulimall.product.service.PmsAttrService;
+import cn.rlfit.gulimall.product.vo.AttrGroupWithAttrsVo;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author: sunjianrong
@@ -20,7 +25,8 @@ import java.util.Map;
 public class PmsAttrGroupServiceImpl implements PmsAttrGroupService {
     @Autowired
     PmsAttrGroupMapper pmsAttrGroupMapper;
-
+    @Autowired
+    PmsAttrService pmsAttrService;
     /**
      * 在page中还需还封装总页数，每一大小，当前页，总记录数
      * @param pms 查询参数
@@ -69,5 +75,18 @@ public class PmsAttrGroupServiceImpl implements PmsAttrGroupService {
     @Override
     public void update(PmsAttrGroup pmsAttrGroup) {
         pmsAttrGroupMapper.updateByPrimaryKeySelective(pmsAttrGroup);
+    }
+
+    @Override
+    public List<AttrGroupWithAttrsVo> getAttrGroupWithAttr(Long catelogId) {
+        List<PmsAttrGroup> pmsAttrGroups = pmsAttrGroupMapper.seleAll(catelogId);
+        // 查询所有属性
+        return pmsAttrGroups.stream().map(item -> {
+            AttrGroupWithAttrsVo attrGroupWithAttrsVo = new AttrGroupWithAttrsVo();
+            BeanUtils.copyProperties(item, attrGroupWithAttrsVo);
+            List<PmsAttr> attrs = pmsAttrService.getRelationAttr(item.getAttrGroupId());
+            attrGroupWithAttrsVo.setAttrs(attrs);
+            return attrGroupWithAttrsVo;
+        }).collect(Collectors.toList());
     }
 }

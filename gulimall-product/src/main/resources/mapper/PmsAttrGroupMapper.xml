@@ -155,4 +155,15 @@
             </if>
         </where>
     </select>
+    <select id="seleAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List">
+        </include>
+        from pms_attr_group
+        <where>
+            <if test="_parameter != null and _parameter != ''">
+                catelog_id = #{catelogId,jdbcType=BIGINT}
+            </if>
+        </where>
+    </select>
 </mapper>

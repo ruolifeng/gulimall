@@ -8,6 +8,7 @@ import cn.rlfit.gulimall.product.service.PmsAttrRelationService;
 import cn.rlfit.gulimall.product.service.PmsAttrService;
 import cn.rlfit.gulimall.product.service.PmsCategoryService;
 import cn.rlfit.gulimall.product.vo.AttrGroupRelationVo;
+import cn.rlfit.gulimall.product.vo.AttrGroupWithAttrsVo;
 import cn.rlfit.gulimall.product.vo.AttrRespVo;
 import cn.rlfit.gulimall.utils.resp.R;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -108,5 +109,13 @@ public class PmsAttrGroupController {
     public R addRelation(@RequestBody List<AttrGroupRelationVo> vo){
         pmsAttrRelationService.addRelation(vo);
         return R.ok();
+    }
+
+    @GetMapping("/{catelogId}/withattr")
+    public R getAttrGroupWithAttr(@PathVariable Long catelogId){
+        // 查询出当前分类下面的所有属性分组
+        // 查询出每一个属性分组的 所有属性
+        List<AttrGroupWithAttrsVo> attrGroupWithAttrsVos = attrGroupService.getAttrGroupWithAttr(catelogId);
+        return R.ok().put("data", attrGroupWithAttrsVos);
     }
 }
