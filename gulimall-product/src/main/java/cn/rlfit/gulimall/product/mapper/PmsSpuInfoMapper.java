@@ -24,4 +24,5 @@ public interface PmsSpuInfoMapper {
 
     int updateByPrimaryKey(PmsSpuInfo record);
 
+    void saveBaseInfo(PmsSpuInfo pmsSpuInfo);
 }
