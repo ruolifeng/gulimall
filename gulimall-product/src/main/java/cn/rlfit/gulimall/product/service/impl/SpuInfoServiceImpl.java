@@ -3,8 +3,7 @@ package cn.rlfit.gulimall.product.service.impl;
 import cn.rlfit.gulimall.product.domain.*;
 import cn.rlfit.gulimall.product.mapper.*;
 import cn.rlfit.gulimall.product.service.SpuInfoService;
-import cn.rlfit.gulimall.product.vo.BaseAttrs;
-import cn.rlfit.gulimall.product.vo.SpuSaveVo;
+import cn.rlfit.gulimall.product.vo.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,6 +30,12 @@ public class SpuInfoServiceImpl implements SpuInfoService {
     PmsAttrMapper pmsAttrMapper;
     @Autowired
     PmsProductAttrValueMapper pmsProductAttrValueMapper;
+    @Autowired
+    PmsSkuInfoMapper pmsSkuInfoMapper;
+    @Autowired
+    PmsSkuImagesMapper pmsSkuImagesMapper;
+    @Autowired
+    PmsSkuSaleAttrValueMapper pmsSkuSaleAttrValueMapper;
     @Override
     @Transactional
     public void saveSpuInfo(SpuSaveVo vo) {
@@ -65,8 +70,46 @@ public class SpuInfoServiceImpl implements SpuInfoService {
         this.saveProductAttrValue(collect);
         // 保存积分信息
         // 保存所有sku信息
-        // 保存sku的基本信息
-        // 保存sku的图片信息
+        List<Skus> skus = vo.getSkus();
+        if (skus != null && skus.size() > 0){
+            skus.forEach(sku->{
+                String defaultImage = "";
+                for (Images image : sku.getImages()) {
+                    if (image.getDefaultImg() == 1) {
+                        defaultImage = image.getImgUrl();
+                    }
+                }
+                // 保存sku的基本信息
+                PmsSkuInfo pmsSkuInfo = new PmsSkuInfo();
+                BeanUtils.copyProperties(sku, pmsSkuInfo);
+                pmsSkuInfo.setBrandId(pmsSpuInfo.getBrandId());
+                pmsSkuInfo.setCatalogId(pmsSpuInfo.getCatalogId());
+                pmsSkuInfo.setSaleCount(0L);
+                pmsSkuInfo.setSpuId(pmsSpuInfo.getId());
+                pmsSkuInfo.setSkuDefaultImg(defaultImage);
+                // 主键id可能获取不到
+                Long skuId = pmsSkuInfo.getSkuId();
+                this.saveSkuInfo(pmsSkuInfo);
+                List<Images> images1 = sku.getImages();
+                // 保存sku的图片信息
+                List<PmsSkuImages> collect1 = images1.stream().map(img -> {
+                    PmsSkuImages pmsSkuImages = new PmsSkuImages();
+                    pmsSkuImages.setSkuId(skuId);
+                    pmsSkuImages.setImgUrl(img.getImgUrl());
+                    pmsSkuImages.setDefaultImg(img.getDefaultImg());
+                    return pmsSkuImages;
+                }).collect(Collectors.toList());
+                this.saveSkuImages(collect1);
+                List<Attr> attr = sku.getAttr();
+                List<PmsSkuSaleAttrValue> collect2 = attr.stream().map(a -> {
+                    PmsSkuSaleAttrValue pmsSkuSaleAttrValue = new PmsSkuSaleAttrValue();
+                    BeanUtils.copyProperties(a, pmsSkuSaleAttrValue);
+                    pmsSkuSaleAttrValue.setSkuId(skuId);
+                    return pmsSkuSaleAttrValue;
+                }).collect(Collectors.toList());
+                this.saveSkuSaleAttrValue(collect2);
+            });
+        }
         // 保存sku的销售属性值
         // 保存sku的优惠信息（跨库保存）
         // 保存sku的满减等信息
@@ -101,5 +144,24 @@ public class SpuInfoServiceImpl implements SpuInfoService {
         collect.stream().distinct().forEach(item->{
             pmsProductAttrValueMapper.insertSelective(item);
         });
+    }
+
+    @Override
+    public void saveSkuInfo(PmsSkuInfo pmsSkuInfo) {
+        pmsSkuInfoMapper.insertSelective(pmsSkuInfo);
+    }
+
+    @Override
+    public void saveSkuImages(List<PmsSkuImages> collect1) {
+        for (PmsSkuImages pmsSkuImages : collect1) {
+            pmsSkuImagesMapper.insertSelective(pmsSkuImages);
+        }
+    }
+
+    @Override
+    public void saveSkuSaleAttrValue(List<PmsSkuSaleAttrValue> collect2) {
+        for (PmsSkuSaleAttrValue pmsSkuSaleAttrValue : collect2) {
+            pmsSkuSaleAttrValueMapper.insertSelective(pmsSkuSaleAttrValue);
+        }
     }
 }
