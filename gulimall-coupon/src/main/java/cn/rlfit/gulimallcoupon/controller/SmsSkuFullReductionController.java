@@ -1,9 +1,11 @@
 package cn.rlfit.gulimallcoupon.controller;
+
+import cn.rlfit.gulimall.to.SkuReduction;
+import cn.rlfit.gulimall.utils.resp.R;
 import cn.rlfit.gulimallcoupon.domain.SmsSkuFullReduction;
 import cn.rlfit.gulimallcoupon.service.impl.SmsSkuFullReductionServiceImpl;
-import org.springframework.web.bind.annotation.*;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 /**
 * 商品满减信息(sms_sku_full_reduction)表控制层
@@ -11,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 * @author xxxxx
 */
 @RestController
-@RequestMapping("/sms_sku_full_reduction")
+@RequestMapping("/coupon/skufullreduction")
 public class SmsSkuFullReductionController {
 /**
 * 服务对象
@@ -30,4 +32,9 @@ public class SmsSkuFullReductionController {
     return smsSkuFullReductionServiceImpl.selectByPrimaryKey(id);
     }
 
+    @PostMapping("/saveInfo")
+    public R saveInfo(@RequestBody SkuReduction skuReduction){
+        smsSkuFullReductionServiceImpl.saveSkuReduciton(skuReduction);
+        return R.ok();
+    }
 }

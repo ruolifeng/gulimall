@@ -1,5 +1,6 @@
 package cn.rlfit.gulimallcoupon.service;
 
+import cn.rlfit.gulimall.to.SkuReduction;
 import cn.rlfit.gulimallcoupon.domain.SmsSkuFullReduction;
 import java.util.List;
     /**
@@ -23,4 +24,5 @@ public interface SmsSkuFullReductionService{
 
     int batchInsert(List<SmsSkuFullReduction> list);
 
-}
+        void saveSkuReduciton(SkuReduction skuReduction);
+    }

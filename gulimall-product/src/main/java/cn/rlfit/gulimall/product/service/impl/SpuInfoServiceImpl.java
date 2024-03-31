@@ -1,9 +1,12 @@
 package cn.rlfit.gulimall.product.service.impl;
 
 import cn.rlfit.gulimall.product.domain.*;
+import cn.rlfit.gulimall.product.feign.CouponFeignService;
 import cn.rlfit.gulimall.product.mapper.*;
 import cn.rlfit.gulimall.product.service.SpuInfoService;
 import cn.rlfit.gulimall.product.vo.*;
+import cn.rlfit.gulimall.to.SkuReduction;
+import cn.rlfit.gulimall.to.SpuBoundsTo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,6 +39,8 @@ public class SpuInfoServiceImpl implements SpuInfoService {
     PmsSkuImagesMapper pmsSkuImagesMapper;
     @Autowired
     PmsSkuSaleAttrValueMapper pmsSkuSaleAttrValueMapper;
+    @Autowired
+    CouponFeignService couponFeignService;
     @Override
     @Transactional
     public void saveSpuInfo(SpuSaveVo vo) {
@@ -108,10 +113,19 @@ public class SpuInfoServiceImpl implements SpuInfoService {
                     return pmsSkuSaleAttrValue;
                 }).collect(Collectors.toList());
                 this.saveSkuSaleAttrValue(collect2);
+                // 保存sku的销售属性值
+                Bounds bounds = vo.getBounds();
+                SpuBoundsTo spuBoundsTo = new SpuBoundsTo();
+                BeanUtils.copyProperties(bounds, spuBoundsTo);
+                spuBoundsTo.setSpuId(pmsSpuInfo.getId());
+                couponFeignService.saveSpuBounds(spuBoundsTo);
+                // 保存sku的优惠信息（跨库保存）
+                SkuReduction skuReduction = new SkuReduction();
+                BeanUtils.copyProperties(sku,skuReduction);
+                skuReduction.setSkuId(skuId);
+                couponFeignService.saveSkuReduction(skuReduction);
             });
         }
-        // 保存sku的销售属性值
-        // 保存sku的优惠信息（跨库保存）
         // 保存sku的满减等信息
     }
 
