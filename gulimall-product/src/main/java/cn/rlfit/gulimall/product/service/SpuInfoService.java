@@ -2,8 +2,10 @@ package cn.rlfit.gulimall.product.service;
 
 import cn.rlfit.gulimall.product.domain.*;
 import cn.rlfit.gulimall.product.vo.SpuSaveVo;
+import cn.rlfit.gulimall.utils.resp.Page;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author: sunjianrong
@@ -26,4 +28,6 @@ public interface SpuInfoService {
     void saveSkuImages(List<PmsSkuImages> collect1);
 
     void saveSkuSaleAttrValue(List<PmsSkuSaleAttrValue> collect2);
+
+    Page<List<PmsSpuInfo>> getAllByCondition(Map<String,Object> pms);
 }

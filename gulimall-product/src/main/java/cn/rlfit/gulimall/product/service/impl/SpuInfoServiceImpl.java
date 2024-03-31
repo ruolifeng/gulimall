@@ -7,6 +7,7 @@ import cn.rlfit.gulimall.product.service.SpuInfoService;
 import cn.rlfit.gulimall.product.vo.*;
 import cn.rlfit.gulimall.to.SkuReduction;
 import cn.rlfit.gulimall.to.SpuBoundsTo;
+import cn.rlfit.gulimall.utils.resp.Page;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -182,5 +184,32 @@ public class SpuInfoServiceImpl implements SpuInfoService {
         for (PmsSkuSaleAttrValue pmsSkuSaleAttrValue : collect2) {
             pmsSkuSaleAttrValueMapper.insertSelective(pmsSkuSaleAttrValue);
         }
+    }
+
+    /**
+     * 获取所有数据展示
+     *
+     * @return
+     */
+    @Override
+    public Page<List<PmsSpuInfo>> getAllByCondition(Map<String, Object> pms) {
+        Integer page = null;
+        Integer size = null;
+        String key = null;
+        if (pms.get("page") != null)
+            page = Integer.parseInt((String) pms.get("page"));
+        if (pms.get("limit") != null)
+            size = Integer.parseInt((String) pms.get("limit"));
+        if (pms.get("key") != null)
+            key = (String) pms.get("key");
+        List<PmsSpuInfo> allByCondition = pmsSpuInfoMapper.getAllByCondition(page, size, key);
+        Integer count = pmsSpuInfoMapper.getCount(key);
+        Page<List<PmsSpuInfo>> data = new Page<>();
+        data.setData(allByCondition);
+        if (pms.get("limit") != null)
+            data.setTotalPage(count / size);
+        data.setCurrentPage(page);
+        data.setTotalCount(count);
+        return data;
     }
 }

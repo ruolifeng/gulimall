@@ -54,7 +54,6 @@ public class PmsAttrServiceImpl implements PmsAttrService {
         Integer size = null;
         String key = null;
         Integer attrTypeInteger = attrType.equals("base") ? AttrEnum.ATTR_TYPE_BASE.getCode() : AttrEnum.ATTR_TYPE_SALE.getCode();
-        System.out.println(attrTypeInteger);
         if (pms.get("page") != null)
             page = Integer.parseInt((String) pms.get("page"));
         if (pms.get("limit") != null)

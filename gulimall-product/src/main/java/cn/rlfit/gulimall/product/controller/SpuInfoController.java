@@ -1,13 +1,15 @@
 package cn.rlfit.gulimall.product.controller;
 
+import cn.rlfit.gulimall.product.domain.PmsSpuInfo;
 import cn.rlfit.gulimall.product.service.SpuInfoService;
 import cn.rlfit.gulimall.product.vo.SpuSaveVo;
+import cn.rlfit.gulimall.utils.resp.Page;
 import cn.rlfit.gulimall.utils.resp.R;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author: sunjianrong
@@ -23,5 +25,10 @@ public class SpuInfoController {
     public R save(@RequestBody SpuSaveVo vo){
         spuInfoService.saveSpuInfo(vo);
         return R.ok();
+    }
+    @GetMapping("/list")
+    public R getAll(@RequestParam Map<String,Object> pms){
+        Page<List<PmsSpuInfo>> listAll = spuInfoService.getAllByCondition(pms);
+        return R.ok().put("data",listAll);
     }
 }
