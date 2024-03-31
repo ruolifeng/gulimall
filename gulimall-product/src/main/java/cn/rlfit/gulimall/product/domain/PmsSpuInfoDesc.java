@@ -1,7 +1,8 @@
 package cn.rlfit.gulimall.product.domain;
 
-import java.io.Serializable;
 import lombok.Data;
+
+import java.io.Serializable;
 
 /**
  * spu信息介绍

@@ -13,6 +13,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -21,7 +22,7 @@ import java.util.List;
  * @date: 31/03/2024 1:16 PM
  */
 @Service
-public class SmsSkuFullReductionServiceImpl implements SmsSkuFullReductionService{
+public class SmsSkuFullReductionServiceImpl implements SmsSkuFullReductionService {
 
     @Autowired
     private SmsSkuFullReductionMapper smsSkuFullReductionMapper;
@@ -29,6 +30,7 @@ public class SmsSkuFullReductionServiceImpl implements SmsSkuFullReductionServic
     SmsSkuLadderMapper smsSkuLadderMapper;
     @Autowired
     SmsMemberPriceMapper smsMemberPriceMapper;
+
     @Override
     public int deleteByPrimaryKey(Long id) {
         return smsSkuFullReductionMapper.deleteByPrimaryKey(id);
@@ -73,11 +75,13 @@ public class SmsSkuFullReductionServiceImpl implements SmsSkuFullReductionServic
         smsSkuLadder.setDiscount(skuReduction.getDiscount());
         smsSkuLadder.setAddOther(skuReduction.getCountStatus() == 1);
 //        smsSkuLadder.setPrice();
-        smsSkuLadderMapper.insertSelective(smsSkuLadder);
+        if (skuReduction.getFullCount() > 0)
+            smsSkuLadderMapper.insertSelective(smsSkuLadder);
         // 保存满减信息
         SmsSkuFullReduction smsSkuFullReduction = new SmsSkuFullReduction();
         BeanUtils.copyProperties(skuReduction, smsSkuFullReduction);
-        smsSkuFullReductionMapper.insertSelective(smsSkuFullReduction);
+        if (skuReduction.getFullPrice().compareTo(new BigDecimal(0)) > 0)
+            smsSkuFullReductionMapper.insertSelective(smsSkuFullReduction);
         // 会员价格
         List<MemberPrice> memberPrice = skuReduction.getMemberPrice();
         List<SmsMemberPrice> collect = memberPrice.stream().map(price -> {
@@ -88,7 +92,7 @@ public class SmsSkuFullReductionServiceImpl implements SmsSkuFullReductionServic
             smsMemberPrice.setMemberPrice(price.getPrice());
             smsMemberPrice.setAddOther(true);
             return smsMemberPrice;
-        }).toList();
+        }).filter(item -> item.getMemberPrice().compareTo(new BigDecimal(0)) > 0).toList();
         for (SmsMemberPrice smsMemberPrice : collect) {
             smsMemberPriceMapper.insertSelective(smsMemberPrice);
         }

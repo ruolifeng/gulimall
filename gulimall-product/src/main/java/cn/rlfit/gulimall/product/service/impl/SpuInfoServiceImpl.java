@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -41,6 +42,7 @@ public class SpuInfoServiceImpl implements SpuInfoService {
     PmsSkuSaleAttrValueMapper pmsSkuSaleAttrValueMapper;
     @Autowired
     CouponFeignService couponFeignService;
+
     @Override
     @Transactional
     public void saveSpuInfo(SpuSaveVo vo) {
@@ -73,11 +75,17 @@ public class SpuInfoServiceImpl implements SpuInfoService {
             return pmsProductAttrValue;
         }).collect(Collectors.toList());
         this.saveProductAttrValue(collect);
+        Bounds bounds = vo.getBounds();
+        SpuBoundsTo spuBoundsTo = new SpuBoundsTo();
+        BeanUtils.copyProperties(bounds, spuBoundsTo);
+        spuBoundsTo.setSpuId(pmsSpuInfo.getId());
+        couponFeignService.saveSpuBounds(spuBoundsTo);
+
         // 保存积分信息
         // 保存所有sku信息
         List<Skus> skus = vo.getSkus();
-        if (skus != null && skus.size() > 0){
-            skus.forEach(sku->{
+        if (skus != null && !skus.isEmpty()) {
+            skus.forEach(sku -> {
                 String defaultImage = "";
                 for (Images image : sku.getImages()) {
                     if (image.getDefaultImg() == 1) {
@@ -103,7 +111,7 @@ public class SpuInfoServiceImpl implements SpuInfoService {
                     pmsSkuImages.setImgUrl(img.getImgUrl());
                     pmsSkuImages.setDefaultImg(img.getDefaultImg());
                     return pmsSkuImages;
-                }).collect(Collectors.toList());
+                }).filter(item -> !item.getImgUrl().isEmpty()).collect(Collectors.toList());
                 this.saveSkuImages(collect1);
                 List<Attr> attr = sku.getAttr();
                 List<PmsSkuSaleAttrValue> collect2 = attr.stream().map(a -> {
@@ -114,16 +122,12 @@ public class SpuInfoServiceImpl implements SpuInfoService {
                 }).collect(Collectors.toList());
                 this.saveSkuSaleAttrValue(collect2);
                 // 保存sku的销售属性值
-                Bounds bounds = vo.getBounds();
-                SpuBoundsTo spuBoundsTo = new SpuBoundsTo();
-                BeanUtils.copyProperties(bounds, spuBoundsTo);
-                spuBoundsTo.setSpuId(pmsSpuInfo.getId());
-                couponFeignService.saveSpuBounds(spuBoundsTo);
                 // 保存sku的优惠信息（跨库保存）
                 SkuReduction skuReduction = new SkuReduction();
-                BeanUtils.copyProperties(sku,skuReduction);
+                BeanUtils.copyProperties(sku, skuReduction);
                 skuReduction.setSkuId(skuId);
-                couponFeignService.saveSkuReduction(skuReduction);
+                if (skuReduction.getFullCount() > 0 || skuReduction.getFullPrice().compareTo(new BigDecimal(0)) > 0)
+                    couponFeignService.saveSkuReduction(skuReduction);
             });
         }
         // 保存sku的满减等信息
@@ -155,7 +159,7 @@ public class SpuInfoServiceImpl implements SpuInfoService {
 
     @Override
     public void saveProductAttrValue(List<PmsProductAttrValue> collect) {
-        collect.stream().distinct().forEach(item->{
+        collect.stream().distinct().forEach(item -> {
             pmsProductAttrValueMapper.insertSelective(item);
         });
     }
