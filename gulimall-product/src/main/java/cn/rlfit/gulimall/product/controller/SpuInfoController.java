@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @date: 30/03/2024 2:07 PM
  */
 @RestController
-@RequestMapping("/")
+@RequestMapping("/product/spuinfo")
 public class SpuInfoController {
     @Autowired
     SpuInfoService spuInfoService;

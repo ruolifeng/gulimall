@@ -12,12 +12,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 /**
+ * TODO 高级部分完善更加复杂的失败逻辑
  * @author: sunjianrong
  * @email: sunruolifeng@gmail.com
  * @date: 30/03/2024 2:14 PM
@@ -40,7 +42,7 @@ public class SpuInfoServiceImpl implements SpuInfoService {
     PmsSkuImagesMapper pmsSkuImagesMapper;
     @Autowired
     PmsSkuSaleAttrValueMapper pmsSkuSaleAttrValueMapper;
-    @Autowired
+    @Resource
     CouponFeignService couponFeignService;
 
     @Override
@@ -55,7 +57,6 @@ public class SpuInfoServiceImpl implements SpuInfoService {
         // 保存描述
         List<String> decript = vo.getDecript();
         PmsSpuInfoDesc pmsSpuInfoDesc = new PmsSpuInfoDesc();
-        // TODO id可能获取不到
         pmsSpuInfoDesc.setSpuId(pmsSpuInfo.getId());
         pmsSpuInfoDesc.setDecript(String.join(",", decript));
         this.saveSpuInfoDesc(pmsSpuInfoDesc);
@@ -79,6 +80,7 @@ public class SpuInfoServiceImpl implements SpuInfoService {
         SpuBoundsTo spuBoundsTo = new SpuBoundsTo();
         BeanUtils.copyProperties(bounds, spuBoundsTo);
         spuBoundsTo.setSpuId(pmsSpuInfo.getId());
+        CouponFeignService couponFeignService = new CouponFeignService();
         couponFeignService.saveSpuBounds(spuBoundsTo);
 
         // 保存积分信息
