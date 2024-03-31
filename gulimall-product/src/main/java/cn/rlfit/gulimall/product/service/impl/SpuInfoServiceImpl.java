@@ -80,7 +80,6 @@ public class SpuInfoServiceImpl implements SpuInfoService {
         SpuBoundsTo spuBoundsTo = new SpuBoundsTo();
         BeanUtils.copyProperties(bounds, spuBoundsTo);
         spuBoundsTo.setSpuId(pmsSpuInfo.getId());
-        CouponFeignService couponFeignService = new CouponFeignService();
         couponFeignService.saveSpuBounds(spuBoundsTo);
 
         // 保存积分信息

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
  * @date: 31/03/2024 1:41 PM
  */
 @FeignClient("gulimall-coupon")
-public class CouponFeignService {
+public interface CouponFeignService {
 
     /**
      * 调用的基本流程
@@ -26,12 +26,8 @@ public class CouponFeignService {
      * @param spuBoundsTo 传入的json
      */
     @PostMapping("/coupon/spubounds/save")
-    public R saveSpuBounds(@RequestBody SpuBoundsTo spuBoundsTo) {
-        return R.ok();
-    }
+    R saveSpuBounds(@RequestBody SpuBoundsTo spuBoundsTo);
 
     @PostMapping("/coupon/skufullreduction/saveInfo")
-    public R saveSkuReduction(@RequestBody SkuReduction skuReduction) {
-       return R.ok();
-    }
+    R saveSkuReduction(@RequestBody SkuReduction skuReduction);
 }
