@@ -18,6 +18,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -196,13 +197,22 @@ public class SpuInfoServiceImpl implements SpuInfoService {
         Integer page = null;
         Integer size = null;
         String key = null;
+        Integer status = null;
+        Long brandld = null;
+        Long catelogId = null;
         if (pms.get("page") != null)
             page = Integer.parseInt((String) pms.get("page"));
         if (pms.get("limit") != null)
             size = Integer.parseInt((String) pms.get("limit"));
         if (pms.get("key") != null)
             key = (String) pms.get("key");
-        List<PmsSpuInfo> allByCondition = pmsSpuInfoMapper.getAllByCondition(page, size, key);
+        if (!Objects.isNull(pms.get("status")))
+            status = (Integer) pms.get("status");
+        if (!Objects.isNull(pms.get("brandld")))
+            brandld = (Long) pms.get("brandld");
+        if ((!Objects.isNull("catelogId")))
+            catelogId = (Long) pms.get("catelogId");
+        List<PmsSpuInfo> allByCondition = pmsSpuInfoMapper.getAllByCondition(page, size, key, status, brandld, catelogId);
         Integer count = pmsSpuInfoMapper.getCount(key);
         Page<List<PmsSpuInfo>> data = new Page<>();
         data.setData(allByCondition);

@@ -29,7 +29,7 @@ public interface PmsSpuInfoMapper {
 
 //    void saveBaseInfo(PmsSpuInfo pmsSpuInfo);
 
-    List<PmsSpuInfo> getAllByCondition(@Param("page") Integer page, @Param("size") Integer size, @Param("key") String key);
+    List<PmsSpuInfo> getAllByCondition(@Param("page") Integer page, @Param("size") Integer size, @Param("key") String key, @Param("brandId") Long brandId, @Param("catelogId") Long catelogId, @Param("status") Integer status);
 
     Integer getCount(String key);
 }
