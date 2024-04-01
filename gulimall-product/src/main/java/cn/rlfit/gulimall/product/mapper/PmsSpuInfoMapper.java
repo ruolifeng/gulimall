@@ -31,5 +31,5 @@ public interface PmsSpuInfoMapper {
 
     List<PmsSpuInfo> getAllByCondition(@Param("page") Integer page, @Param("size") Integer size, @Param("key") String key, @Param("brandId") Long brandId, @Param("catelogId") Long catelogId, @Param("status") Integer status);
 
-    Integer getCount(String key);
+    Integer getCount(@Param("page") Integer page, @Param("size") Integer size, @Param("key") String key, @Param("brandId") Long brandId, @Param("catelogId") Long catelogId, @Param("status") Integer status);
 }

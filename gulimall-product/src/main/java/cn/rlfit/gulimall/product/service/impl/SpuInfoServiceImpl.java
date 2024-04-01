@@ -207,13 +207,13 @@ public class SpuInfoServiceImpl implements SpuInfoService {
         if (pms.get("key") != null)
             key = (String) pms.get("key");
         if (!Objects.isNull(pms.get("status")))
-            status = (Integer) pms.get("status");
+            status = Integer.parseInt((String) pms.get("status"));
         if (!Objects.isNull(pms.get("brandld")))
             brandld = (Long) pms.get("brandld");
         if ((!Objects.isNull("catelogId")))
             catelogId = (Long) pms.get("catelogId");
         List<PmsSpuInfo> allByCondition = pmsSpuInfoMapper.getAllByCondition(page, size, key,brandld, catelogId, status);
-        Integer count = pmsSpuInfoMapper.getCount(key);
+        Integer count = pmsSpuInfoMapper.getCount(page, size, key,brandld, catelogId, status);
         Page<List<PmsSpuInfo>> data = new Page<>();
         data.setData(allByCondition);
         if (pms.get("limit") != null)

@@ -118,7 +118,7 @@
         from pms_spu_info
         <where>
             <if test="key != null and key != ''">
-                id = #{key,jdbcType=VARCHAR} or spu_name = #{key,jdbcType=VARCHAR}
+                (id = #{key,jdbcType=VARCHAR} or spu_name like concat('%',#{key,jdbcType=VARCHAR},'%'))
             </if>
             <if test="status != null and status != ''">
                 and publish_status = #{status,jdbcType=INTEGER}
@@ -137,8 +137,17 @@
     <select id="getCount" resultType="int">
         select count(*) from pms_spu_info
         <where>
-            <if test="_parameter != null and _parameter != ''">
-                id = #{_parameter,jdbcType=VARCHAR} or spu_name = #{_parameter,jdbcType=VARCHAR}
+            <if test="key != null and key != ''">
+                (id = #{key,jdbcType=VARCHAR} or spu_name like concat('%',#{key,jdbcType=VARCHAR},'%'))
+            </if>
+            <if test="status != null and status != ''">
+                and publish_status = #{status,jdbcType=INTEGER}
+            </if>
+            <if test="brandId != null and brandId != ''">
+                and brand_id = #{brandId,jdbcType=BIGINT}
+            </if>
+            <if test="catelogId != null and catelogId != ''">
+                and catalog_id = #{catelogId,jdbcType=BIGINT}
             </if>
         </where>
     </select>
