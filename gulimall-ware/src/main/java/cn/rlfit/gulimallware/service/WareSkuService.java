@@ -1,7 +1,10 @@
 package cn.rlfit.gulimallware.service;
 
+import com.mybatisflex.core.paginate.Page;
 import com.mybatisflex.core.service.IService;
 import cn.rlfit.gulimallware.entity.WareSku;
+
+import java.util.Map;
 
 /**
  * 商品库存 服务层。
@@ -11,4 +14,7 @@ import cn.rlfit.gulimallware.entity.WareSku;
  */
 public interface WareSkuService extends IService<WareSku> {
 
+    Page<WareSku> queryPage(Map<String, Object> pms);
+
+    void patchDelete(Long[] ids);
 }

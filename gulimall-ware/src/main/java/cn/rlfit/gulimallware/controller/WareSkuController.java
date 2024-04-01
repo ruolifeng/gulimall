@@ -1,19 +1,14 @@
 package cn.rlfit.gulimallware.controller;
 
-import com.mybatisflex.core.paginate.Page;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.beans.factory.annotation.Autowired;
+import cn.rlfit.gulimall.utils.resp.R;
 import cn.rlfit.gulimallware.entity.WareSku;
 import cn.rlfit.gulimallware.service.WareSkuService;
-import org.springframework.web.bind.annotation.RestController;
+import com.mybatisflex.core.paginate.Page;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
 import java.io.Serializable;
-import java.util.List;
+import java.util.Map;
 
 /**
  * 商品库存 控制层。
@@ -22,7 +17,7 @@ import java.util.List;
  * @since 2024-04-01 12:37:31
  */
 @RestController
-@RequestMapping("/wareSku")
+@RequestMapping("/ware/waresku")
 public class WareSkuController {
 
     @Autowired
@@ -45,10 +40,10 @@ public class WareSkuController {
      * @param id 主键
      * @return {@code true} 删除成功，{@code false} 删除失败
      */
-    @DeleteMapping("remove/{id}")
-    public boolean remove(@PathVariable Serializable id) {
-        return wareSkuService.removeById(id);
-    }
+//    @DeleteMapping("remove/{id}")
+//    public boolean remove(@PathVariable Serializable id) {
+//        return wareSkuService.removeById(id);
+//    }
 
     /**
      * 根据主键更新商品库存。
@@ -66,10 +61,10 @@ public class WareSkuController {
      *
      * @return 所有数据
      */
-    @GetMapping("list")
-    public List<WareSku> list() {
-        return wareSkuService.list();
-    }
+//    @GetMapping("list")
+//    public List<WareSku> list() {
+//        return wareSkuService.list();
+//    }
 
     /**
      * 根据商品库存主键获取详细信息。
@@ -77,9 +72,10 @@ public class WareSkuController {
      * @param id 商品库存主键
      * @return 商品库存详情
      */
-    @GetMapping("getInfo/{id}")
-    public WareSku getInfo(@PathVariable Serializable id) {
-        return wareSkuService.getById(id);
+    @GetMapping("info/{id}")
+    public R getInfo(@PathVariable Serializable id) {
+        WareSku byId = wareSkuService.getById(id);
+        return R.ok().put("data", byId);
     }
 
     /**
@@ -88,9 +84,14 @@ public class WareSkuController {
      * @param page 分页对象
      * @return 分页对象
      */
-    @GetMapping("page")
-    public Page<WareSku> page(Page<WareSku> page) {
-        return wareSkuService.page(page);
+    @GetMapping("list")
+    public R page(@RequestParam Map<String,Object> pms) {
+        Page<WareSku> wareSkuPage = wareSkuService.queryPage(pms);
+        return R.ok().put("data", wareSkuPage);
     }
-
+    @PostMapping("/delete")
+    public R patchDelete(@RequestBody Long[] ids){
+        wareSkuService.patchDelete(ids);
+        return R.ok();
+    }
 }
