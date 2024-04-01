@@ -15,4 +15,6 @@ import java.util.Map;
 public interface WareInfoService extends IService<WareInfo> {
 
     Page<WareInfo> GetFoPage(Map<String, Object> params);
+
+    void patchDelete(Long[] ids);
 }

@@ -73,9 +73,10 @@ public class WareInfoController {
      * @param id 仓库信息主键
      * @return 仓库信息详情
      */
-    @GetMapping("getInfo/{id}")
-    public WareInfo getInfo(@PathVariable Serializable id) {
-        return wareInfoService.getById(id);
+    @GetMapping("info/{id}")
+    public R getInfo(@PathVariable Serializable id) {
+        WareInfo byId = wareInfoService.getById(id);
+        return R.ok().put("data", byId);
     }
 
     /**
@@ -88,6 +89,11 @@ public class WareInfoController {
     public R page(@RequestParam Map<String, Object> params) {
         Page<WareInfo> page =  wareInfoService.GetFoPage(params);
         return R.ok().put("data", page);
+    }
+    @PostMapping("/delete")
+    public R patchDelete(@RequestBody Long[] ids){
+        wareInfoService.patchDelete(ids);
+        return R.ok();
     }
 
 }

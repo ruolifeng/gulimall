@@ -9,6 +9,7 @@ import com.mybatisflex.core.query.QueryWrapper;
 import com.mybatisflex.spring.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.Map;
 
 /**
@@ -36,7 +37,14 @@ public class WareInfoServiceImpl extends ServiceImpl<WareInfoMapper, WareInfo> i
                     .and(WareInfoTableDef.WARE_INFO.ID.eq(key)
                             .or(WareInfoTableDef.WARE_INFO.NAME.like(key))
                             .or(WareInfoTableDef.WARE_INFO.ADDRESS.like(key)));
+            return page(page, queryWrapper);
         }
-        return page(page, queryWrapper);
+        return page(page);
+
+    }
+
+    @Override
+    public void patchDelete(Long[] ids) {
+        this.removeByIds(Arrays.stream(ids).toList());
     }
 }
