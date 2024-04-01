@@ -208,10 +208,10 @@ public class SpuInfoServiceImpl implements SpuInfoService {
             key = (String) pms.get("key");
         if (!Objects.isNull(pms.get("status")))
             status = Integer.parseInt((String) pms.get("status"));
-        if (!Objects.isNull(pms.get("brandld")))
-            brandld = (Long) pms.get("brandld");
-        if ((!Objects.isNull("catelogId")))
-            catelogId = (Long) pms.get("catelogId");
+        if (!Objects.isNull(pms.get("brandId")))
+            brandld = Long.parseLong((String) pms.get("brandId"));
+        if (!Objects.isNull(pms.get("catelogId")))
+            catelogId = Long.valueOf((String) pms.get("catelogId"));
         List<PmsSpuInfo> allByCondition = pmsSpuInfoMapper.getAllByCondition(page, size, key,brandld, catelogId, status);
         Integer count = pmsSpuInfoMapper.getCount(page, size, key,brandld, catelogId, status);
         Page<List<PmsSpuInfo>> data = new Page<>();

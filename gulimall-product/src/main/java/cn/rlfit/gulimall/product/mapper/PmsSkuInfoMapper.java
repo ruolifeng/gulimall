@@ -2,6 +2,10 @@ package cn.rlfit.gulimall.product.mapper;
 
 import cn.rlfit.gulimall.product.domain.PmsSkuInfo;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.math.BigDecimal;
+import java.util.List;
 
 /**
 * @author 18777
@@ -24,4 +28,7 @@ public interface PmsSkuInfoMapper {
 
     int updateByPrimaryKey(PmsSkuInfo record);
 
+    List<PmsSkuInfo> getSkuInfoList(@Param("page") Integer page, @Param("size") Integer size, @Param("key") String key, @Param("max") BigDecimal max, @Param("min") BigDecimal min, @Param("brandId") Long brandId, @Param("catelogId") Long catelogId);
+
+    Integer getCount(@Param("key") String key, @Param("max") BigDecimal max, @Param("min") BigDecimal min, @Param("brandId") Long brandId, @Param("catelogId") Long catelogId);
 }

@@ -127,4 +127,46 @@
             sale_count =  #{saleCount,jdbcType=BIGINT}
         where   sku_id = #{skuId,jdbcType=BIGINT} 
     </update>
+
+    <select id="getCount" resultType="java.lang.Integer">
+        select count(*) from pms_sku_info
+        <where>
+            <if test="key != null and key != ''">
+                (sku_id = #{key,jdbcType=VARCHAR} or sku_name = concat('%',#{key,jdbcType=VARCHAR},'%'))
+            </if>
+            <if test="brandId != null and brandId != ''">
+                and brand_id = #{brandId,jdbcType=BIGINT}
+            </if>
+            <if test="catelogId != null and catelogId != ''">
+                and catalog_id = #{catelogId,jdbcType=BIGINT}
+            </if>
+            <if test="max != null and max != '' and min != null and min != ''">
+                and price between #{max,jdbcType=DECIMAL} and #{min,jdbcType=DECIMAL}
+            </if>
+        </where>
+    </select>
+
+    <select id="getSkuInfoList" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List">
+        </include>
+        from pms_sku_info
+        <where>
+            <if test="key != null and key != ''">
+                (sku_id = #{key,jdbcType=VARCHAR} or sku_name = concat('%',#{key,jdbcType=VARCHAR},'%'))
+            </if>
+            <if test="brandId != null and brandId != ''">
+                and brand_id = #{brandId,jdbcType=BIGINT}
+            </if>
+            <if test="catelogId != null and catelogId != ''">
+                and catalog_id = #{catelogId,jdbcType=BIGINT}
+            </if>
+            <if test="max != null and min != null">
+                and price between #{min,jdbcType=DECIMAL} and #{max,jdbcType=DECIMAL}
+            </if>
+        </where>
+        <if test="page != null and page != ''">
+            limit ${page-1},${size}
+        </if>
+    </select>
 </mapper>

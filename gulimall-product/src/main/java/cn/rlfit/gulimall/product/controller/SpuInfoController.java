@@ -32,3 +32,4 @@ public class SpuInfoController {
         return R.ok().put("data",listAll);
     }
 }
+
