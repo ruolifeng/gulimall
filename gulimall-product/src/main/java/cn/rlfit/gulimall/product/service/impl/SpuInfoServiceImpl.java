@@ -212,7 +212,7 @@ public class SpuInfoServiceImpl implements SpuInfoService {
             brandld = (Long) pms.get("brandld");
         if ((!Objects.isNull("catelogId")))
             catelogId = (Long) pms.get("catelogId");
-        List<PmsSpuInfo> allByCondition = pmsSpuInfoMapper.getAllByCondition(page, size, key, status, brandld, catelogId);
+        List<PmsSpuInfo> allByCondition = pmsSpuInfoMapper.getAllByCondition(page, size, key,brandld, catelogId, status);
         Integer count = pmsSpuInfoMapper.getCount(key);
         Page<List<PmsSpuInfo>> data = new Page<>();
         data.setData(allByCondition);
