@@ -1,9 +1,9 @@
 package cn.rlfit.gulimallware.service.impl;
 
-import com.mybatisflex.spring.service.impl.ServiceImpl;
 import cn.rlfit.gulimallware.entity.Purchase;
 import cn.rlfit.gulimallware.mapper.PurchaseMapper;
 import cn.rlfit.gulimallware.service.PurchaseService;
+import com.mybatisflex.spring.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 /**
@@ -14,5 +14,4 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class PurchaseServiceImpl extends ServiceImpl<PurchaseMapper, Purchase> implements PurchaseService {
-
 }

@@ -1,19 +1,14 @@
 package cn.rlfit.gulimallware.controller;
 
-import com.mybatisflex.core.paginate.Page;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.beans.factory.annotation.Autowired;
+import cn.rlfit.gulimall.utils.resp.R;
 import cn.rlfit.gulimallware.entity.PurchaseDetail;
 import cn.rlfit.gulimallware.service.PurchaseDetailService;
-import org.springframework.web.bind.annotation.RestController;
+import com.mybatisflex.core.paginate.Page;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
 import java.io.Serializable;
-import java.util.List;
+import java.util.Map;
 
 /**
  *  控制层。
@@ -22,7 +17,7 @@ import java.util.List;
  * @since 2024-04-01 12:37:31
  */
 @RestController
-@RequestMapping("/purchaseDetail")
+@RequestMapping("ware/purchasedetail")
 public class PurchaseDetailController {
 
     @Autowired
@@ -35,8 +30,9 @@ public class PurchaseDetailController {
      * @return {@code true} 添加成功，{@code false} 添加失败
      */
     @PostMapping("save")
-    public boolean save(@RequestBody PurchaseDetail purchaseDetail) {
-        return purchaseDetailService.save(purchaseDetail);
+    public R save(@RequestBody PurchaseDetail purchaseDetail) {
+        purchaseDetailService.save(purchaseDetail);
+        return R.ok();
     }
 
     /**
@@ -60,16 +56,16 @@ public class PurchaseDetailController {
     public boolean update(@RequestBody PurchaseDetail purchaseDetail) {
         return purchaseDetailService.updateById(purchaseDetail);
     }
-
-    /**
-     * 查询所有。
-     *
-     * @return 所有数据
-     */
-    @GetMapping("list")
-    public List<PurchaseDetail> list() {
-        return purchaseDetailService.list();
-    }
+//
+//    /**
+//     * 查询所有。
+//     *
+//     * @return 所有数据
+//     */
+//    @GetMapping("list")
+//    public List<PurchaseDetail> list() {
+//        return purchaseDetailService.list();
+//    }
 
     /**
      * 根据主键获取详细信息。
@@ -77,9 +73,11 @@ public class PurchaseDetailController {
      * @param id 主键
      * @return 详情
      */
-    @GetMapping("getInfo/{id}")
-    public PurchaseDetail getInfo(@PathVariable Serializable id) {
-        return purchaseDetailService.getById(id);
+    @GetMapping("info/{id}")
+    public R getInfo(@PathVariable Serializable id) {
+        PurchaseDetail byId = purchaseDetailService.getById(id);
+        return R.ok().put("data", byId);
+
     }
 
     /**
@@ -88,9 +86,15 @@ public class PurchaseDetailController {
      * @param page 分页对象
      * @return 分页对象
      */
-    @GetMapping("page")
-    public Page<PurchaseDetail> page(Page<PurchaseDetail> page) {
-        return purchaseDetailService.page(page);
+    @GetMapping("list")
+    public R page(@RequestParam Map<String, Object> pms) {
+        Page<PurchaseDetail> purchasePage = purchaseDetailService.pageListAll(pms);
+        return R.ok().put("data", purchasePage);
     }
 
+    @PostMapping("/delete")
+    public R deleteAll(@RequestBody Long[] ids) {
+        purchaseDetailService.deleteAll(ids);
+        return R.ok();
+    }
 }
