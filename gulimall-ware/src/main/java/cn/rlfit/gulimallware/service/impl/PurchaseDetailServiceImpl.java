@@ -11,6 +11,7 @@ import com.mybatisflex.spring.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -38,5 +39,13 @@ public class PurchaseDetailServiceImpl extends ServiceImpl<PurchaseDetailMapper,
     @Override
     public void deleteAll(Long[] ids) {
         this.removeByIds(Arrays.stream(ids).toList());
+    }
+
+    @Override
+    public List<PurchaseDetail> listDetailByPurchaseId(Long id) {
+        return this.list(QueryWrapper.create()
+                .select()
+                .from(PurchaseDetailTableDef.PURCHASE_DETAIL)
+                .where(PurchaseDetailTableDef.PURCHASE_DETAIL.PURCHASE_ID.eq(id)));
     }
 }

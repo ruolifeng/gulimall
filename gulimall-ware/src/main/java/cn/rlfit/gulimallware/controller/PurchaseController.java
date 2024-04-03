@@ -4,6 +4,7 @@ import cn.rlfit.gulimall.utils.resp.R;
 import cn.rlfit.gulimallware.entity.Purchase;
 import cn.rlfit.gulimallware.service.PurchaseService;
 import cn.rlfit.gulimallware.vo.MergeVo;
+import cn.rlfit.gulimallware.vo.PurchaseDoneVo;
 import com.mybatisflex.core.paginate.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -112,6 +113,23 @@ public class PurchaseController {
     @PostMapping("/merge")
     public R merge(@RequestBody MergeVo mergeVo){
         purchaseService.merge(mergeVo);
+        return R.ok();
+    }
+
+    /**
+     * 领取采购单（一些细节的地方暂时不考虑）
+     * @param ids 领取的采购单id
+     * @return 领取状态
+     */
+    @PostMapping("/receive")
+    public R receive(@RequestBody Long[] ids){
+        purchaseService.recevied(ids);
+        return R.ok();
+    }
+
+    @PostMapping("/done")
+    public R finish(@RequestBody PurchaseDoneVo purchaseDoneVo){
+        purchaseService.done(purchaseDoneVo);
         return R.ok();
     }
 }

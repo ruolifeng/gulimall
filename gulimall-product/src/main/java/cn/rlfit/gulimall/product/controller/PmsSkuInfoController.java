@@ -4,10 +4,7 @@ import cn.rlfit.gulimall.product.domain.PmsSkuInfo;
 import cn.rlfit.gulimall.product.service.PmsSkuInfoService;
 import cn.rlfit.gulimall.utils.resp.Page;
 import cn.rlfit.gulimall.utils.resp.R;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -27,5 +24,11 @@ public class PmsSkuInfoController {
     public R getSkuInfoList(@RequestParam Map<String,Object> params){
        Page<List<PmsSkuInfo>> pageData =  pmsSkuInfoService.getSkuInfoList(params);
         return R.ok().put("data", pageData);
+    }
+
+    @GetMapping("/info/{skuId}")
+    public R info(@PathVariable Long skuId){
+       PmsSkuInfo info =  pmsSkuInfoService.getSkuInfoById(skuId);
+       return R.ok().put("data", info);
     }
 }

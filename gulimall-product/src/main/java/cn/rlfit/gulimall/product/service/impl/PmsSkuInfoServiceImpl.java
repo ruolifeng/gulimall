@@ -55,4 +55,9 @@ public class PmsSkuInfoServiceImpl implements PmsSkuInfoService {
             pageData.setTotalPage(count / size);
         return pageData;
     }
+
+    @Override
+    public PmsSkuInfo getSkuInfoById(Long skuId) {
+        return pmsSkuInfoMapper.selectByPrimaryKey(skuId);
+    }
 }

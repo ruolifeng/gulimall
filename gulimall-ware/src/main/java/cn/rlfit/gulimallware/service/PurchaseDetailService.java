@@ -4,6 +4,7 @@ import cn.rlfit.gulimallware.entity.PurchaseDetail;
 import com.mybatisflex.core.paginate.Page;
 import com.mybatisflex.core.service.IService;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,4 +17,6 @@ public interface PurchaseDetailService extends IService<PurchaseDetail> {
     Page<PurchaseDetail> pageListAll(Map<String, Object> pms);
 
     void deleteAll(Long[] ids);
+
+    List<PurchaseDetail> listDetailByPurchaseId(Long id);
 }

@@ -17,4 +17,6 @@ public interface WareSkuService extends IService<WareSku> {
     Page<WareSku> queryPage(Map<String, Object> pms);
 
     void patchDelete(Long[] ids);
+
+    void addStock(Long skuId, Long wareId, Integer skuNum);
 }

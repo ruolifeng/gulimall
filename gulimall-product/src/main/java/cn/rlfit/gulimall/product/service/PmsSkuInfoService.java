@@ -13,4 +13,6 @@ import java.util.Map;
  */
 public interface PmsSkuInfoService {
     Page<List<PmsSkuInfo>> getSkuInfoList(Map<String, Object> params);
+
+    PmsSkuInfo getSkuInfoById(Long skuId);
 }

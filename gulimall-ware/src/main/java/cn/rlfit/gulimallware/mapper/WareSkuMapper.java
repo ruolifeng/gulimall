@@ -1,8 +1,9 @@
 package cn.rlfit.gulimallware.mapper;
 
-import org.apache.ibatis.annotations.Mapper;
-import com.mybatisflex.core.BaseMapper;
 import cn.rlfit.gulimallware.entity.WareSku;
+import com.mybatisflex.core.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 商品库存 映射层。
@@ -12,5 +13,7 @@ import cn.rlfit.gulimallware.entity.WareSku;
  */
 @Mapper
 public interface WareSkuMapper extends BaseMapper<WareSku> {
-
+    void addStock(@Param("skuId") Long skuId,
+                  @Param("wareId") Long wareId,
+                  @Param("skuNum") Integer skuNum);
 }

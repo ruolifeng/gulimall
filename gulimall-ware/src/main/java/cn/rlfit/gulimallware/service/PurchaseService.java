@@ -2,6 +2,7 @@ package cn.rlfit.gulimallware.service;
 
 import cn.rlfit.gulimallware.entity.Purchase;
 import cn.rlfit.gulimallware.vo.MergeVo;
+import cn.rlfit.gulimallware.vo.PurchaseDoneVo;
 import com.mybatisflex.core.paginate.Page;
 import com.mybatisflex.core.service.IService;
 
@@ -21,6 +22,10 @@ public interface PurchaseService extends IService<Purchase> {
     Page<Purchase> unreceiveList(Map<String, Object> pms);
 
     void merge(MergeVo mergeVo);
+
+    void recevied(Long[] ids);
+
+    void done(PurchaseDoneVo purchaseDoneVo);
 
 //    Page<Purchase> pageListAll(Map<String, Object> pms);
 //

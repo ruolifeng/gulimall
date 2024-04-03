@@ -7,7 +7,10 @@ import cn.rlfit.gulimallware.entity.table.PurchaseTableDef;
 import cn.rlfit.gulimallware.mapper.PurchaseMapper;
 import cn.rlfit.gulimallware.service.PurchaseDetailService;
 import cn.rlfit.gulimallware.service.PurchaseService;
+import cn.rlfit.gulimallware.service.WareSkuService;
+import cn.rlfit.gulimallware.vo.ItemDoneVo;
 import cn.rlfit.gulimallware.vo.MergeVo;
+import cn.rlfit.gulimallware.vo.PurchaseDoneVo;
 import com.mybatisflex.core.paginate.Page;
 import com.mybatisflex.core.query.QueryWrapper;
 import com.mybatisflex.core.util.StringUtil;
@@ -17,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +36,9 @@ import java.util.stream.Collectors;
 public class PurchaseServiceImpl extends ServiceImpl<PurchaseMapper, Purchase> implements PurchaseService {
     @Autowired
     PurchaseDetailService purchaseDetailService;
+    @Autowired
+    WareSkuService wareSkuService;
+
     @Override
     public Page<Purchase> pageListAll(Map<String, Object> pms) {
         Page<Purchase> page = new Page<>();
@@ -60,11 +67,12 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseMapper, Purchase> i
         return page(page, wrapper);
     }
 
+    // TODO 确认采购单状态是0,1才可以合并
     @Transactional
     @Override
     public void merge(MergeVo mergeVo) {
         Long purchaseId = mergeVo.getPurchaseId();
-        if (purchaseId == null){
+        if (purchaseId == null) {
             Purchase purchase = new Purchase();
             purchase.setStatus(WareConstant.CREATED.getCode());
             purchase.setCreateTime(LocalDateTime.now());
@@ -86,5 +94,59 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseMapper, Purchase> i
         purchase.setId(purchaseId);
         purchase.setUpdateTime(LocalDateTime.now());
         this.updateById(purchase);
+    }
+
+    @Override
+    public void recevied(Long[] ids) {
+        // 确认当前采购单是新建或者已近分配状态
+        List<Purchase> purchaseList = Arrays.stream(ids).map(this::getById).filter(item -> item.getStatus() == WareConstant.CREATED.getCode()
+                || item.getStatus() == WareConstant.ASSIGNED.getCode()).peek(item -> {
+            item.setStatus(WareConstant.RECEIVE.getCode());
+            item.setUpdateTime(LocalDateTime.now());
+        }).toList();
+        // 改变采购单的状态
+        this.updateBatch(purchaseList);
+        // 改变采购项的状态
+        purchaseList.forEach(item -> {
+            List<PurchaseDetail> purchaseDetailList = purchaseDetailService.listDetailByPurchaseId(item.getId());
+            List<PurchaseDetail> purchaseDetails = purchaseDetailList.stream().map(x -> {
+                PurchaseDetail purchaseDetail = new PurchaseDetail();
+                purchaseDetail.setId(x.getId());
+                purchaseDetail.setStatus(WareConstant.RECEIVE.getCode());
+                return purchaseDetail;
+            }).collect(Collectors.toList());
+            purchaseDetailService.updateBatch(purchaseDetails);
+        });
+    }
+
+    @Transactional
+    @Override
+    public void done(PurchaseDoneVo purchaseDoneVo) {
+        // 改变采购单状态
+        Long id = purchaseDoneVo.getId();
+        // 改变采购单中每一个项的状态
+        Boolean flag = true;
+        List<ItemDoneVo> items = purchaseDoneVo.getItems();
+        List<PurchaseDetail> update = new ArrayList<>();
+        for (ItemDoneVo item : items) {
+            PurchaseDetail purchaseDetail = new PurchaseDetail();
+            if (item.getStatus() == WareConstant.HASERROR.getCode()) {
+                flag = false;
+                purchaseDetail.setStatus(WareConstant.HASERROR.getCode());
+            } else {
+                purchaseDetail.setStatus(WareConstant.FINISH.getCode());
+                PurchaseDetail byId = purchaseDetailService.getById(item.getItemId());
+                wareSkuService.addStock(byId.getSkuId(),byId.getWareId(),byId.getSkuNum());
+            }
+            purchaseDetail.setId(item.getItemId());
+            update.add(purchaseDetail);
+        }
+        purchaseDetailService.updateBatch(update);
+        Purchase purchase = new Purchase();
+        purchase.setId(id);
+        purchase.setStatus(false?WareConstant.FINISH.getCode() : WareConstant.HASERROR.getCode());
+        purchase.setUpdateTime(LocalDateTime.now());
+        this.updateById(purchase);
+        // 将成功采购的进行入库
     }
 }
