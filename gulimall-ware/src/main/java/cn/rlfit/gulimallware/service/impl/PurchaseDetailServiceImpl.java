@@ -29,8 +29,8 @@ public class PurchaseDetailServiceImpl extends ServiceImpl<PurchaseDetailMapper,
         QueryWrapper wrapper = QueryWrapper.create()
                 .select()
                 .from(PurchaseDetailTableDef.PURCHASE_DETAIL)
-                .where(PurchaseDetailTableDef.PURCHASE_DETAIL.STATUS.eq(pms.get("status")).when(!StringUtil.isNotBlank((String) pms.get("status"))))
-                .and(PurchaseDetailTableDef.PURCHASE_DETAIL.WARE_ID.eq(pms.get("wareId")).when(!StringUtil.isNotBlank((String) pms.get("wareId"))))
+                .where(PurchaseDetailTableDef.PURCHASE_DETAIL.STATUS.eq(pms.get("status")).when(StringUtil.isNotBlank((String) pms.get("status"))))
+                .and(PurchaseDetailTableDef.PURCHASE_DETAIL.WARE_ID.eq(pms.get("wareId")).when(StringUtil.isNotBlank((String) pms.get("wareId"))))
                 .and(PurchaseDetailTableDef.PURCHASE_DETAIL.ID.eq(pms.get("key")).when(StringUtil.isNotBlank((String) pms.get("key"))));
         return page(page, wrapper);
     }

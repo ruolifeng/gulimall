@@ -3,10 +3,14 @@ package cn.rlfit.gulimallware.controller;
 import cn.rlfit.gulimall.utils.resp.R;
 import cn.rlfit.gulimallware.entity.Purchase;
 import cn.rlfit.gulimallware.service.PurchaseService;
+import cn.rlfit.gulimallware.vo.MergeVo;
+import com.mybatisflex.core.paginate.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.Map;
 
 /**
  * 采购信息 控制层。
@@ -29,6 +33,8 @@ public class PurchaseController {
      */
     @PostMapping("save")
     public R save(@RequestBody Purchase purchase) {
+        purchase.setCreateTime(LocalDateTime.now());
+        purchase.setUpdateTime(LocalDateTime.now());
         System.out.println(purchase);
         purchaseService.save(purchase);
         return R.ok();
@@ -51,7 +57,7 @@ public class PurchaseController {
      * @param purchase 采购信息
      * @return {@code true} 更新成功，{@code false} 更新失败
      */
-    @PutMapping("update")
+    @PostMapping("update")
     public R update(@RequestBody Purchase purchase) {
         purchaseService.updateById(purchase);
         return R.ok();
@@ -79,22 +85,33 @@ public class PurchaseController {
         return R.ok().put("data", byId);
     }
 
-//    /**
-//     * 分页查询采购信息。
-//     *
-//     * @param page 分页对象
-//     * @return 分页对象
-//     */
-//    @GetMapping("list")
-//    public R page(@RequestParam Map<String, Object> pms) {
-//        Page<Purchase> purchasePage = purchaseService.pageListAll(pms);
-//        return R.ok().put("data", purchasePage);
-//    }
-//
-//    @PostMapping("/delete")
-//    public R deleteAll(@RequestBody Long[] ids) {
-//        purchaseService.deleteAll(ids);
-//        return R.ok();
-//    }
+    /**
+     * 分页查询采购信息。
+     *
+     * @param page 分页对象
+     * @return 分页对象
+     */
+    @GetMapping("list")
+    public R page(@RequestParam Map<String, Object> pms) {
+        Page<Purchase> purchasePage = purchaseService.pageListAll(pms);
+        return R.ok().put("data", purchasePage);
+    }
 
+    @PostMapping("/delete")
+    public R deleteAll(@RequestBody Long[] ids) {
+        purchaseService.deleteAll(ids);
+        return R.ok();
+    }
+
+    @GetMapping("/unreceive/list")
+    public R unreceiveList(@RequestParam Map<String, Object> pms) {
+        Page<Purchase> purchasePage = purchaseService.unreceiveList(pms);
+        return R.ok().put("data", purchasePage);
+    }
+
+    @PostMapping("/merge")
+    public R merge(@RequestBody MergeVo mergeVo){
+        purchaseService.merge(mergeVo);
+        return R.ok();
+    }
 }
