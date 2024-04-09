@@ -1,6 +1,6 @@
 package cn.rlfit.gulimall.search;
 
-import co.elastic.clients.elasticsearch.ElasticsearchClient;
+import org.elasticsearch.client.RestHighLevelClient;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -9,10 +9,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 class GulimallSearchApplicationTests {
 
 	@Autowired
-	ElasticsearchClient elasticsearchClient;
+	private RestHighLevelClient restHighLevelClient;
 	@Test
-	void contextLoads() {
-		System.out.println(elasticsearchClient);
+	public void contextLoads() {
+		System.out.println(restHighLevelClient);
 	}
 
 }
